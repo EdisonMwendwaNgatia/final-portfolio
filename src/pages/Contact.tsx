@@ -80,6 +80,14 @@ const GitHubIcon = () => (
   </svg>
 );
 
+// WhatsApp Icon - remove any specific coloring, it will inherit from parent
+const WhatsAppIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12.045 0C5.401 0 0 5.401 0 12.045c0 2.133.558 4.137 1.536 5.891L.523 23.218l5.394-1.011c1.7.923 3.63 1.456 5.678 1.456 6.644 0 12.045-5.401 12.045-12.045S18.689 0 12.045 0zm0 22.058c-1.868 0-3.626-.497-5.156-1.37l-.37-.22-3.203.6.612-3.125-.24-.384c-1-1.596-1.574-3.46-1.574-5.424 0-5.524 4.496-10.02 10.02-10.02 5.525 0 10.02 4.496 10.02 10.02 0 5.524-4.495 10.02-10.02 10.02z"/>
+  </svg>
+);
+
 /* ══════════════════════════════════════════════
    MAIN COMPONENT
 ══════════════════════════════════════════════ */
@@ -124,12 +132,18 @@ const Contact: React.FC = () => {
     }
   };
 
+  const handleWhatsApp = () => {
+    const phoneNumber = '254742254329';
+    const message = 'Hi Edison, I saw your portfolio and would like to connect.';
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const handleDownloadResume = () => {
     (async () => {
       const publicPath = `${process.env.PUBLIC_URL || ''}/resume/edison-mwendwa-resume.pdf`;
       
       try {
-        // Quick HEAD check to ensure file exists and avoid fetching large payload unnecessarily
         const head = await fetch(publicPath, { method: 'HEAD' });
         if (head.ok) {
           const link = document.createElement('a');
@@ -142,7 +156,6 @@ const Contact: React.FC = () => {
           return;
         }
       } catch (err) {
-        // If HEAD request fails, try full fetch
         try {
           const res = await fetch(publicPath);
           if (res.ok) {
@@ -159,7 +172,6 @@ const Contact: React.FC = () => {
             return;
           }
         } catch (err) {
-          // Final fallback: open the file in a new tab so the user can manually save it.
           window.open(publicPath, '_blank', 'noopener,noreferrer');
         }
       }
@@ -279,7 +291,7 @@ const Contact: React.FC = () => {
           padding: 0.8rem 0;
           border-bottom: 1px solid rgba(0,0,0,0.05);
           transition: padding-left 0.2s ease;
-          cursor: default;
+          cursor: pointer;
         }
         .contact-item:last-of-type { border-bottom: none; }
         
@@ -620,7 +632,11 @@ const Contact: React.FC = () => {
                     <span className="s-label-text">Direct</span>
                   </div>
 
-                  <div className="contact-item">
+                  <div 
+                    className="contact-item" 
+                    onClick={() => window.location.href = 'mailto:ryanedinson@gmail.com'}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="contact-icon-wrap"><EmailIcon/></div>
                     <div style={{ overflow: 'hidden' }}>
                       <div style={{ 
@@ -639,7 +655,11 @@ const Contact: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="contact-item">
+                  <div 
+                    className="contact-item" 
+                    onClick={() => window.location.href = 'tel:+254742644921'}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="contact-icon-wrap"><PhoneIcon/></div>
                     <div>
                       <div style={{ 
@@ -654,6 +674,31 @@ const Contact: React.FC = () => {
                         color:'#1a1a2e', 
                         fontWeight:400 
                       }}>+254 742 644 921</div>
+                    </div>
+                  </div>
+
+                  {/* WhatsApp contact item - NO whatsapp-btn class, so it inherits gold color */}
+                  <div 
+                    className="contact-item" 
+                    onClick={handleWhatsApp}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <div className="contact-icon-wrap">{/* Removed whatsapp-btn class */}
+                      <WhatsAppIcon/>
+                    </div>
+                    <div>
+                      <div style={{ 
+                        fontSize:'0.68rem', 
+                        color:'#bbb', 
+                        letterSpacing:'0.08em', 
+                        textTransform:'uppercase', 
+                        marginBottom:2 
+                      }}>WhatsApp</div>
+                      <div style={{ 
+                        fontSize:'clamp(0.8rem, 2.5vw, 0.9rem)', 
+                        color:'#1a1a2e', 
+                        fontWeight:400 
+                      }}>+254 742 254 329</div>
                     </div>
                   </div>
 
@@ -687,18 +732,26 @@ const Contact: React.FC = () => {
                   <div style={{ 
                     display:'flex', 
                     gap:'0.6rem',
+                    flexWrap: 'wrap',
                     justifyContent: window.innerWidth <= 640 ? 'center' : 'flex-start'
                   }}>
                     {[
                       { href:'https://www.linkedin.com/in/edison-ngatia-aa250a34b/', icon:<LinkedInIcon/>, label:'LinkedIn' },
                       { href:'https://github.com/EdisonMwendwaNgatia', icon:<GitHubIcon/>, label:'GitHub' },
+                      { 
+                        href:'#', 
+                        icon:<WhatsAppIcon/>, 
+                        label:'WhatsApp',
+                        onClick: handleWhatsApp
+                      }
                     ].map(s => (
                       <a 
                         key={s.label} 
                         href={s.href} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="social-btn" 
+                        target={s.label !== 'WhatsApp' ? "_blank" : undefined}
+                        rel={s.label !== 'WhatsApp' ? "noopener noreferrer" : undefined}
+                        onClick={s.label === 'WhatsApp' ? (e) => { e.preventDefault(); handleWhatsApp(); } : undefined}
+                        className="social-btn" // Removed conditional whatsapp-btn class
                         title={s.label}
                         aria-label={s.label}
                       >
