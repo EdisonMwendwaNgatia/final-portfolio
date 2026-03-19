@@ -9,7 +9,7 @@ const useInView = (threshold = 0.12) => {
       ([e]) => {
         if (e.isIntersecting) setInView(true);
       },
-      { threshold },
+      { threshold, rootMargin: '50px' },
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
@@ -75,7 +75,6 @@ const experiences = [
     date: "2025",
     tag: "Recognition",
     desc: "Presented BLOCKHOUSE KENYA, an innovative blockchain solution, to H.E. the President of Kenya at Umma Univesity. Demonstrated how technology can revolutionize Kenya's housing sector by having tamper proof asset transfer.",
-    /*img: `${process.env.PUBLIC_URL || ''}/gallery/presidential-showcase.jpg`,*/
     img:"https://i.pinimg.com/736x/6f/8c/fe/6f8cfe905f15ffbbaaa56b1c77952866.jpg"
   },
   {
@@ -125,16 +124,25 @@ const About: React.FC = () => {
           gap: 12px;
           margin-bottom: 1.4rem;
         }
-        .s-label-line { width: 28px; height: 1px; background: var(--gold); flex-shrink: 0; }
+        .s-label-line { 
+          width: 28px; 
+          height: 1px; 
+          background: var(--gold); 
+          flex-shrink: 0; 
+        }
         .s-label-text {
-          font-size: 0.72rem; font-weight: 500;
-          letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold);
+          font-size: 0.72rem; 
+          font-weight: 500;
+          letter-spacing: 0.13em; 
+          text-transform: uppercase; 
+          color: var(--gold);
         }
 
         .serif { font-family: 'Playfair Display', serif; }
 
         .gold-div {
-          width: 48px; height: 1px;
+          width: 48px; 
+          height: 1px;
           background: linear-gradient(90deg, var(--gold), transparent);
           margin: 1.4rem 0;
         }
@@ -147,23 +155,40 @@ const About: React.FC = () => {
           -webkit-backdrop-filter: blur(16px);
           box-shadow: 0 4px 40px rgba(0,0,0,0.04), 0 1px 0 rgba(255,255,255,0.9) inset;
           overflow: hidden;
+          transition: transform 0.3s ease;
+        }
+
+        .glass-card:active {
+          transform: scale(0.98);
         }
 
         .skill-pill {
           display: inline-block;
-          font-size: 0.78rem; font-weight: 500;
-          letter-spacing: 0.04em; color: var(--dark);
+          font-size: clamp(0.7rem, 2.5vw, 0.78rem); 
+          font-weight: 500;
+          letter-spacing: 0.04em; 
+          color: var(--dark);
           border: 1px solid var(--border);
-          padding: 0.45rem 1.1rem;
+          padding: 0.45rem 1rem;
           border-radius: 2px;
           background: rgba(255,255,255,0.75);
           transition: border-color 0.22s, background 0.22s, transform 0.22s;
           cursor: default;
+          -webkit-tap-highlight-color: transparent;
         }
-        .skill-pill:hover {
+        
+        @media (hover: hover) {
+          .skill-pill:hover {
+            border-color: var(--gold);
+            background: rgba(201,169,110,0.06);
+            transform: translateY(-2px);
+          }
+        }
+        
+        .skill-pill:active {
           border-color: var(--gold);
           background: rgba(201,169,110,0.06);
-          transform: translateY(-2px);
+          transform: translateY(-1px);
         }
 
         /* Experience cards */
@@ -175,30 +200,50 @@ const About: React.FC = () => {
           background: var(--card-bg);
           border: 1px solid var(--border);
           box-shadow: 0 4px 32px rgba(0,0,0,0.04);
-          transition: transform 0.4s cubic-bezier(0.2,0,0,1), box-shadow 0.4s ease;
+          transition: transform 0.3s cubic-bezier(0.2,0,0,1), box-shadow 0.3s ease;
           cursor: default;
           height: 100%;
+          -webkit-tap-highlight-color: transparent;
         }
-        .exp-card:hover {
-          transform: translateY(-7px);
-          box-shadow: 0 24px 64px rgba(0,0,0,0.11);
+        
+        @media (hover: hover) {
+          .exp-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 24px 64px rgba(0,0,0,0.11);
+          }
+        }
+        
+        .exp-card:active {
+          transform: translateY(-3px);
+          box-shadow: 0 12px 32px rgba(0,0,0,0.11);
         }
 
         .exp-img-wrap {
           width: 100%;
-          height: 230px;
+          height: 200px;
           overflow: hidden;
           position: relative;
           flex-shrink: 0;
         }
+        
+        @media (min-width: 768px) {
+          .exp-img-wrap {
+            height: 230px;
+          }
+        }
+
         .exp-img-wrap img {
-          width: 100%; height: 100%;
+          width: 100%; 
+          height: 100%;
           object-fit: cover;
           transition: transform 0.65s ease;
           display: block;
         }
-        .exp-card:hover .exp-img-wrap img {
-          transform: scale(1.06);
+        
+        @media (hover: hover) {
+          .exp-card:hover .exp-img-wrap img {
+            transform: scale(1.06);
+          }
         }
 
         .exp-img-overlay {
@@ -208,28 +253,40 @@ const About: React.FC = () => {
 
         .exp-tag-badge {
           position: absolute;
-          top: 14px; left: 14px;
-          font-size: 0.67rem; font-weight: 500;
-          letter-spacing: 0.1em; text-transform: uppercase;
+          top: 12px; 
+          left: 12px;
+          font-size: 0.65rem; 
+          font-weight: 500;
+          letter-spacing: 0.1em; 
+          text-transform: uppercase;
           color: var(--dark);
           background: rgba(255,255,255,0.92);
           border: 1px solid rgba(201,169,110,0.5);
-          padding: 0.26rem 0.75rem;
+          padding: 0.2rem 0.7rem;
           border-radius: 2px;
           backdrop-filter: blur(8px);
         }
 
         .exp-body {
-          padding: 1.6rem 1.8rem 2rem;
+          padding: 1.4rem 1.5rem 1.8rem;
           flex: 1;
           display: flex;
           flex-direction: column;
         }
+        
+        @media (min-width: 768px) {
+          .exp-body {
+            padding: 1.6rem 1.8rem 2rem;
+          }
+        }
 
         .exp-date {
-          font-size: 0.74rem; font-weight: 500;
-          color: var(--gold); letter-spacing: 0.08em;
-          margin-bottom: 0.5rem; display: block;
+          font-size: 0.7rem; 
+          font-weight: 500;
+          color: var(--gold); 
+          letter-spacing: 0.08em;
+          margin-bottom: 0.5rem; 
+          display: block;
         }
 
         .exp-bottom-line {
@@ -238,14 +295,20 @@ const About: React.FC = () => {
         }
 
         .hl-item {
-          display: flex; align-items: flex-start; gap: 14px;
+          display: flex; 
+          align-items: flex-start; 
+          gap: 14px;
           padding: 0.65rem 0;
           border-bottom: 1px solid rgba(0,0,0,0.04);
         }
         .hl-item:last-child { border-bottom: none; }
         .hl-dot {
-          width: 5px; height: 5px; border-radius: 50%;
-          background: var(--gold); margin-top: 9px; flex-shrink: 0;
+          width: 5px; 
+          height: 5px; 
+          border-radius: 50%;
+          background: var(--gold); 
+          margin-top: 9px; 
+          flex-shrink: 0;
         }
 
         @keyframes skillIn {
@@ -253,22 +316,54 @@ const About: React.FC = () => {
           to   { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 768px) {
-          .two-col { grid-template-columns: 1fr !important; }
-          .three-col { grid-template-columns: 1fr !important; }
-          .hl-two-col { grid-template-columns: 1fr !important; }
+        /* Mobile responsive grid overrides */
+        @media (max-width: 1024px) {
+          .two-col { 
+            grid-template-columns: 1fr !important; 
+            gap: 1.5rem !important;
+          }
+          .three-col { 
+            grid-template-columns: repeat(2, 1fr) !important; 
+          }
+          .hl-two-col { 
+            grid-template-columns: 1fr !important; 
+            gap: 0 !important;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .three-col { 
+            grid-template-columns: 1fr !important; 
+          }
+          
+          .glass-card {
+            padding: 1.5rem 1.5rem !important;
+          }
+          
+          .exp-body {
+            padding: 1.2rem 1.2rem 1.5rem !important;
+          }
+          
+          .hl-item {
+            padding: 0.5rem 0;
+          }
+        }
+
+        /* Better touch targets */
+        .skill-pill {
+          margin: 2px;
         }
       `}</style>
 
       <div className="about-page">
-        {/* Background orbs */}
+        {/* Background orbs - responsive */}
         <div
           style={{
             position: "absolute",
             top: "8%",
             right: "-80px",
-            width: "420px",
-            height: "420px",
+            width: "clamp(250px, 60vw, 420px)",
+            height: "clamp(250px, 60vw, 420px)",
             borderRadius: "50%",
             background:
               "radial-gradient(circle, rgba(201,169,110,0.07) 0%, transparent 70%)",
@@ -281,8 +376,8 @@ const About: React.FC = () => {
             position: "absolute",
             bottom: "15%",
             left: "-100px",
-            width: "360px",
-            height: "360px",
+            width: "clamp(220px, 50vw, 360px)",
+            height: "clamp(220px, 50vw, 360px)",
             borderRadius: "50%",
             background:
               "radial-gradient(circle, rgba(26,26,46,0.04) 0%, transparent 70%)",
@@ -307,7 +402,7 @@ const About: React.FC = () => {
           style={{
             maxWidth: "1140px",
             margin: "0 auto",
-            padding: "5rem 2.5rem 7rem",
+            padding: "3rem 1.5rem 5rem",
           }}
         >
           {/* ════ PAGE HEADER ════ */}
@@ -319,7 +414,7 @@ const About: React.FC = () => {
             <h1
               className="serif"
               style={{
-                fontSize: "clamp(2.8rem,5vw,4.8rem)",
+                fontSize: "clamp(2rem, 8vw, 4.8rem)",
                 fontWeight: 700,
                 color: "#1a1a2e",
                 lineHeight: 1.05,
@@ -332,7 +427,7 @@ const About: React.FC = () => {
             <p
               className="serif"
               style={{
-                fontSize: "clamp(1rem,2vw,1.45rem)",
+                fontSize: "clamp(0.9rem, 3vw, 1.45rem)",
                 fontStyle: "italic",
                 color: "#aaa",
                 fontWeight: 400,
@@ -350,24 +445,24 @@ const About: React.FC = () => {
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: "1.8rem",
-              marginTop: "4rem",
+              marginTop: "2.5rem",
               alignItems: "start",
             }}
           >
             {/* Story */}
             <FadeUp delay={0.05}>
-              <div className="glass-card" style={{ padding: "2.2rem 2.4rem" }}>
+              <div className="glass-card" style={{ padding: "1.8rem 1.8rem" }}>
                 <div className="s-label">
                   <div className="s-label-line" />
                   <span className="s-label-text">My Story</span>
                 </div>
                 <p
                   style={{
-                    fontSize: "0.97rem",
+                    fontSize: "clamp(0.9rem, 2.5vw, 0.97rem)",
                     color: "#555",
-                    lineHeight: 1.82,
+                    lineHeight: 1.7,
                     fontWeight: 300,
-                    marginBottom: "1.2rem",
+                    marginBottom: "1rem",
                   }}
                 >
                   My journey into tech started at UMMA University, where I
@@ -377,12 +472,12 @@ const About: React.FC = () => {
                   highest office in the country — every step has been about
                   using technology to create real impact.
                 </p>
-                <div className="gold-div" style={{ margin: "0 0 1.4rem" }} />
+                <div className="gold-div" style={{ margin: "0 0 1.2rem" }} />
                 <p
                   style={{
-                    fontSize: "0.97rem",
+                    fontSize: "clamp(0.9rem, 2.5vw, 0.97rem)",
                     color: "#666",
-                    lineHeight: 1.82,
+                    lineHeight: 1.7,
                     fontWeight: 300,
                     margin: 0,
                   }}
@@ -399,14 +494,14 @@ const About: React.FC = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "1.8rem",
+                gap: "1.5rem",
               }}
             >
               {/* Education */}
               <FadeUp delay={0.12}>
                 <div
                   className="glass-card"
-                  style={{ padding: "2.2rem 2.4rem" }}
+                  style={{ padding: "1.8rem 1.8rem" }}
                 >
                   <div className="s-label">
                     <div className="s-label-line" />
@@ -415,7 +510,7 @@ const About: React.FC = () => {
                   <h3
                     className="serif"
                     style={{
-                      fontSize: "1.35rem",
+                      fontSize: "clamp(1.1rem, 3.5vw, 1.35rem)",
                       color: "#1a1a2e",
                       fontWeight: 700,
                       marginBottom: "0.4rem",
@@ -425,7 +520,7 @@ const About: React.FC = () => {
                   </h3>
                   <p
                     style={{
-                      fontSize: "0.82rem",
+                      fontSize: "clamp(0.75rem, 2vw, 0.82rem)",
                       color: "#aaa",
                       letterSpacing: "0.05em",
                       marginBottom: 0,
@@ -436,7 +531,7 @@ const About: React.FC = () => {
                   <div className="gold-div" />
                   <p
                     style={{
-                      fontSize: "0.92rem",
+                      fontSize: "clamp(0.85rem, 2.5vw, 0.92rem)",
                       color: "#666",
                       fontWeight: 300,
                       margin: 0,
@@ -454,26 +549,26 @@ const About: React.FC = () => {
               <FadeUp delay={0.2}>
                 <div
                   className="glass-card"
-                  style={{ padding: "1.8rem 2.4rem" }}
+                  style={{ padding: "1.5rem 1.5rem" }}
                 >
                   <div
                     style={{
                       display: "grid",
                       gridTemplateColumns: "repeat(3,1fr)",
-                      gap: "1rem",
+                      gap: "0.5rem",
                       textAlign: "center",
                     }}
                   >
                     {[
                       { n: "2+", l: "Years Exp." },
-                      { n: "30+", l: "Students Mentored" },
-                      { n: "1", l: "Presidential Showcase" },
+                      { n: "30+", l: "Students" },
+                      { n: "1", l: "Presidential" },
                     ].map((s) => (
                       <div key={s.l}>
                         <div
                           className="serif"
                           style={{
-                            fontSize: "2rem",
+                            fontSize: "clamp(1.5rem, 5vw, 2rem)",
                             fontWeight: 700,
                             color: "#1a1a2e",
                             lineHeight: 1,
@@ -483,11 +578,11 @@ const About: React.FC = () => {
                         </div>
                         <div
                           style={{
-                            fontSize: "0.68rem",
+                            fontSize: "clamp(0.6rem, 2vw, 0.68rem)",
                             color: "#bbb",
-                            letterSpacing: "0.07em",
+                            letterSpacing: "0.05em",
                             textTransform: "uppercase",
-                            marginTop: 6,
+                            marginTop: 4,
                           }}
                         >
                           {s.l}
@@ -501,8 +596,8 @@ const About: React.FC = () => {
           </div>
 
           {/* ════ SKILLS ════ */}
-          <FadeUp delay={0.05} style={{ marginTop: "5rem" }}>
-            <div className="glass-card" style={{ padding: "2.4rem 2.8rem" }}>
+          <FadeUp delay={0.05} style={{ marginTop: "3rem" }}>
+            <div className="glass-card" style={{ padding: "1.8rem 1.5rem" }}>
               <div className="s-label">
                 <div className="s-label-line" />
                 <span className="s-label-text">Technical Skills</span>
@@ -510,21 +605,26 @@ const About: React.FC = () => {
               <h2
                 className="serif"
                 style={{
-                  fontSize: "1.8rem",
+                  fontSize: "clamp(1.4rem, 4vw, 1.8rem)",
                   color: "#1a1a2e",
                   fontWeight: 700,
-                  marginBottom: "1.6rem",
+                  marginBottom: "1.2rem",
                 }}
               >
                 Tools & Technologies
               </h2>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem" }}>
+              <div style={{ 
+                display: "flex", 
+                flexWrap: "wrap", 
+                gap: "0.5rem",
+                justifyContent: "center"
+              }}>
                 {skills.map((s, i) => (
                   <span
                     key={s}
                     className="skill-pill"
                     style={{
-                      animation: `skillIn 0.45s ease ${0.05 * i + 0.1}s both`,
+                      animation: `skillIn 0.45s ease ${0.03 * i + 0.1}s both`,
                     }}
                   >
                     {s}
@@ -534,7 +634,7 @@ const About: React.FC = () => {
             </div>
           </FadeUp>
 
-          <FadeUp delay={0.05} style={{ marginTop: "5rem" }}>
+          <FadeUp delay={0.05} style={{ marginTop: "3rem" }}>
             <div className="s-label">
               <div className="s-label-line" />
               <span className="s-label-text">Experience & Achievements</span>
@@ -542,7 +642,7 @@ const About: React.FC = () => {
             <h2
               className="serif"
               style={{
-                fontSize: "clamp(1.6rem,3vw,2.4rem)",
+                fontSize: "clamp(1.4rem, 4vw, 2.4rem)",
                 color: "#1a1a2e",
                 fontWeight: 700,
                 marginBottom: "0.4rem",
@@ -558,8 +658,8 @@ const About: React.FC = () => {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1.6rem",
-              marginTop: "2rem",
+              gap: "1.2rem",
+              marginTop: "1.5rem",
             }}
           >
             {experiences.map((exp, i) => (
@@ -568,10 +668,15 @@ const About: React.FC = () => {
                   className="exp-card"
                   onMouseEnter={() => setHoveredExp(i)}
                   onMouseLeave={() => setHoveredExp(null)}
+                  onClick={() => {}} // Empty onClick for better mobile feedback
                 >
                   {/* Big image */}
                   <div className="exp-img-wrap">
-                    <img src={exp.img} alt={exp.title} />
+                    <img 
+                      src={exp.img} 
+                      alt={exp.title}
+                      loading="lazy"
+                    />
                     <div className="exp-img-overlay" />
                     <span className="exp-tag-badge">{exp.tag}</span>
                   </div>
@@ -582,20 +687,20 @@ const About: React.FC = () => {
                     <h3
                       className="serif"
                       style={{
-                        fontSize: "1.12rem",
+                        fontSize: "clamp(1rem, 3vw, 1.12rem)",
                         fontWeight: 700,
                         color: "#1a1a2e",
                         lineHeight: 1.3,
-                        marginBottom: "0.9rem",
+                        marginBottom: "0.7rem",
                       }}
                     >
                       {exp.title}
                     </h3>
                     <p
                       style={{
-                        fontSize: "0.87rem",
+                        fontSize: "clamp(0.8rem, 2.5vw, 0.87rem)",
                         color: "#666",
-                        lineHeight: 1.78,
+                        lineHeight: 1.6,
                         fontWeight: 300,
                         margin: 0,
                         flex: 1,
@@ -621,8 +726,8 @@ const About: React.FC = () => {
           </div>
 
           {/* ════ HIGHLIGHTS ════ */}
-          <FadeUp delay={0.05} style={{ marginTop: "4rem" }}>
-            <div className="glass-card" style={{ padding: "2.4rem 2.8rem" }}>
+          <FadeUp delay={0.05} style={{ marginTop: "3rem" }}>
+            <div className="glass-card" style={{ padding: "1.8rem 1.5rem" }}>
               <div className="s-label">
                 <div className="s-label-line" />
                 <span className="s-label-text">Highlights</span>
@@ -630,10 +735,10 @@ const About: React.FC = () => {
               <h2
                 className="serif"
                 style={{
-                  fontSize: "1.6rem",
+                  fontSize: "clamp(1.3rem, 4vw, 1.6rem)",
                   color: "#1a1a2e",
                   fontWeight: 700,
-                  marginBottom: "1.6rem",
+                  marginBottom: "1.2rem",
                 }}
               >
                 Additional Notes
@@ -643,7 +748,7 @@ const About: React.FC = () => {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr",
-                  gap: "0 3rem",
+                  gap: "0 2rem",
                 }}
               >
                 {highlights.map((item) => (
@@ -651,10 +756,10 @@ const About: React.FC = () => {
                     <div className="hl-dot" />
                     <span
                       style={{
-                        fontSize: "0.91rem",
+                        fontSize: "clamp(0.85rem, 2.5vw, 0.91rem)",
                         color: "#666",
                         fontWeight: 300,
-                        lineHeight: 1.65,
+                        lineHeight: 1.6,
                       }}
                     >
                       {item}

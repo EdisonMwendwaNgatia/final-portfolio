@@ -7,7 +7,7 @@ const useInView = (threshold = 0.1) => {
   useEffect(() => {
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setInView(true); },
-      { threshold }
+      { threshold, rootMargin: '50px' }
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
@@ -81,7 +81,7 @@ const projects = [
   },
   {
     title: 'Tvee E-commerce Platform',
-    description: 'Full-featured digital commerce solution for retail operations. Implements product catalog management, secure shopping cart with5persistent wishlist functionality, and streamlined checkout processing. Administrative dashboard provides inventory oversight, order management, and sales analytics. Built with modern Next.js architecture and Supabase backend.',
+    description: 'Full-featured digital commerce solution for retail operations. Implements product catalog management, secure shopping cart with persistent wishlist functionality, and streamlined checkout processing. Administrative dashboard provides inventory oversight, order management, and sales analytics. Built with modern Next.js architecture and Supabase backend.',
     technologies: ['React', 'Next.js', 'Supabase', 'Payment Gateway Integration', 'REST APIs'],
     year: '2026',
     imageUrl: 'https://i.pinimg.com/736x/f7/27/e0/f727e0fac6dd17186bab055994495524.jpg',
@@ -119,18 +119,30 @@ const Projects: React.FC = () => {
         .serif { font-family: 'Playfair Display', serif; }
 
         .s-label {
-          display: flex; align-items: center; gap: 12px; margin-bottom: 1.4rem;
+          display: flex; 
+          align-items: center; 
+          gap: 12px; 
+          margin-bottom: 1rem;
         }
-        .s-label-line { width: 28px; height: 1px; background: var(--gold); flex-shrink: 0; }
+        .s-label-line { 
+          width: 28px; 
+          height: 1px; 
+          background: var(--gold); 
+          flex-shrink: 0; 
+        }
         .s-label-text {
-          font-size: 0.72rem; font-weight: 500;
-          letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold);
+          font-size: 0.7rem; 
+          font-weight: 500;
+          letter-spacing: 0.13em; 
+          text-transform: uppercase; 
+          color: var(--gold);
         }
 
         .gold-div {
-          width: 48px; height: 1px;
+          width: 48px; 
+          height: 1px;
           background: linear-gradient(90deg, var(--gold), transparent);
-          margin: 1.4rem 0;
+          margin: 1.2rem 0;
         }
 
         /* ── Featured card ── */
@@ -144,25 +156,39 @@ const Projects: React.FC = () => {
           box-shadow: 0 8px 60px rgba(0,0,0,0.07);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-          transition: box-shadow 0.4s ease, transform 0.4s ease;
+          transition: box-shadow 0.4s ease, transform 0.3s ease;
+          -webkit-tap-highlight-color: transparent;
         }
-        .featured-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 24px 80px rgba(0,0,0,0.11);
+        
+        @media (hover: hover) {
+          .featured-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.11);
+          }
+        }
+        
+        .featured-card:active {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.11);
         }
 
         .featured-img-wrap {
           position: relative;
           overflow: hidden;
           min-height: 380px;
+          height: 100%;
         }
         .featured-img-wrap img {
-          width: 100%; height: 100%;
+          width: 100%; 
+          height: 100%;
           object-fit: cover;
           transition: transform 0.7s ease;
           display: block;
         }
-        .featured-card:hover .featured-img-wrap img { transform: scale(1.04); }
+        
+        @media (hover: hover) {
+          .featured-card:hover .featured-img-wrap img { transform: scale(1.04); }
+        }
 
         .featured-img-overlay {
           position: absolute; inset: 0;
@@ -170,48 +196,80 @@ const Projects: React.FC = () => {
         }
 
         .featured-badge {
-          position: absolute; top: 18px; left: 18px;
-          font-size: 0.67rem; font-weight: 500;
-          letter-spacing: 0.12em; text-transform: uppercase;
+          position: absolute; 
+          top: 16px; 
+          left: 16px;
+          font-size: 0.65rem; 
+          font-weight: 500;
+          letter-spacing: 0.12em; 
+          text-transform: uppercase;
           color: #fff;
           background: var(--dark);
-          padding: 0.28rem 0.8rem;
+          padding: 0.24rem 0.7rem;
           border-radius: 2px;
+          z-index: 2;
         }
 
         .featured-body {
-          padding: 2.8rem 3rem;
-          display: flex; flex-direction: column; justify-content: center;
+          padding: 2rem 2rem;
+          display: flex; 
+          flex-direction: column; 
+          justify-content: center;
         }
 
         /* ── Grid cards ── */
         .proj-card {
-          display: flex; flex-direction: column;
-          border-radius: 6px; overflow: hidden;
+          display: flex; 
+          flex-direction: column;
+          border-radius: 6px; 
+          overflow: hidden;
           background: var(--card-bg);
           border: 1px solid var(--border);
           box-shadow: 0 4px 32px rgba(0,0,0,0.04);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
-          transition: transform 0.4s cubic-bezier(0.2,0,0,1), box-shadow 0.4s ease;
+          transition: transform 0.3s cubic-bezier(0.2,0,0,1), box-shadow 0.3s ease;
           height: 100%;
+          -webkit-tap-highlight-color: transparent;
         }
-        .proj-card:hover {
-          transform: translateY(-7px);
-          box-shadow: 0 24px 64px rgba(0,0,0,0.1);
+        
+        @media (hover: hover) {
+          .proj-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 24px 64px rgba(0,0,0,0.1);
+          }
+        }
+        
+        .proj-card:active {
+          transform: translateY(-3px);
+          box-shadow: 0 12px 32px rgba(0,0,0,0.1);
         }
 
         .proj-img-wrap {
-          width: 100%; height: 210px;
-          overflow: hidden; position: relative; flex-shrink: 0;
+          width: 100%; 
+          height: 200px;
+          overflow: hidden; 
+          position: relative; 
+          flex-shrink: 0;
         }
+        
+        @media (min-width: 768px) {
+          .proj-img-wrap {
+            height: 210px;
+          }
+        }
+        
         .proj-img-wrap img {
-          width: 100%; height: 100%;
+          width: 100%; 
+          height: 100%;
           object-fit: cover;
           transition: transform 0.65s ease;
           display: block;
         }
-        .proj-card:hover .proj-img-wrap img { transform: scale(1.06); }
+        
+        @media (hover: hover) {
+          .proj-card:hover .proj-img-wrap img { transform: scale(1.06); }
+        }
 
         .proj-img-overlay {
           position: absolute; inset: 0;
@@ -219,46 +277,79 @@ const Projects: React.FC = () => {
         }
 
         .proj-body {
-          padding: 1.6rem 1.8rem 2rem;
-          flex: 1; display: flex; flex-direction: column;
+          padding: 1.4rem 1.5rem 1.8rem;
+          flex: 1; 
+          display: flex; 
+          flex-direction: column;
+        }
+        
+        @media (min-width: 768px) {
+          .proj-body {
+            padding: 1.6rem 1.8rem 2rem;
+          }
         }
 
         .proj-year {
-          font-size: 0.74rem; font-weight: 500;
-          color: var(--gold); letter-spacing: 0.08em;
-          margin-bottom: 0.5rem; display: block;
+          font-size: 0.72rem; 
+          font-weight: 500;
+          color: var(--gold); 
+          letter-spacing: 0.08em;
+          margin-bottom: 0.5rem; 
+          display: block;
         }
 
         /* ── Tech pills ── */
         .tech-pill {
           display: inline-block;
-          font-size: 0.72rem; font-weight: 500;
-          letter-spacing: 0.03em; color: var(--dark);
+          font-size: clamp(0.65rem, 2.5vw, 0.72rem); 
+          font-weight: 500;
+          letter-spacing: 0.03em; 
+          color: var(--dark);
           border: 1px solid var(--border);
-          padding: 0.3rem 0.75rem;
+          padding: 0.25rem 0.65rem;
           border-radius: 2px;
           background: rgba(255,255,255,0.75);
           transition: border-color 0.2s;
+          white-space: nowrap;
         }
-        .tech-pill:hover { border-color: var(--gold); }
+        
+        @media (hover: hover) {
+          .tech-pill:hover { border-color: var(--gold); }
+        }
+        
+        .tech-pill:active { border-color: var(--gold); }
 
         /* ── GitHub button ── */
         .gh-btn {
-          display: inline-flex; align-items: center; gap: 8px;
+          display: inline-flex; 
+          align-items: center; 
+          gap: 8px;
           font-family: 'DM Sans', sans-serif;
-          font-size: 0.82rem; font-weight: 500;
-          letter-spacing: 0.05em; text-transform: uppercase;
+          font-size: 0.8rem; 
+          font-weight: 500;
+          letter-spacing: 0.05em; 
+          text-transform: uppercase;
           color: var(--dark);
           text-decoration: none;
           border: 1px solid rgba(26,26,46,0.15);
-          padding: 0.65rem 1.4rem;
+          padding: 0.6rem 1.2rem;
           border-radius: 3px;
           background: rgba(255,255,255,0.6);
-          transition: border-color 0.25s, background 0.25s, transform 0.25s;
+          transition: border-color 0.25s, background 0.25s, transform 0.2s;
           width: fit-content;
           margin-top: auto;
+          -webkit-tap-highlight-color: transparent;
         }
-        .gh-btn:hover {
+        
+        @media (hover: hover) {
+          .gh-btn:hover {
+            border-color: var(--gold);
+            background: rgba(201,169,110,0.06);
+            transform: translateY(-1px);
+          }
+        }
+        
+        .gh-btn:active {
           border-color: var(--gold);
           background: rgba(201,169,110,0.06);
           transform: translateY(-1px);
@@ -266,46 +357,37 @@ const Projects: React.FC = () => {
 
         /* ── Featured GH btn ── */
         .gh-btn-primary {
-          display: inline-flex; align-items: center; gap: 10px;
+          display: inline-flex; 
+          align-items: center; 
+          gap: 10px;
           font-family: 'DM Sans', sans-serif;
-          font-size: 0.85rem; font-weight: 500;
-          letter-spacing: 0.06em; text-transform: uppercase;
+          font-size: 0.82rem; 
+          font-weight: 500;
+          letter-spacing: 0.06em; 
+          text-transform: uppercase;
           color: #fff;
           text-decoration: none;
           background: var(--dark);
-          padding: 0.85rem 2rem;
+          padding: 0.75rem 1.8rem;
           border-radius: 3px;
           border: 1px solid transparent;
-          transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+          transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
           width: fit-content;
+          -webkit-tap-highlight-color: transparent;
         }
-        .gh-btn-primary:hover {
+        
+        @media (hover: hover) {
+          .gh-btn-primary:hover {
+            background: #2d2d4e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(26,26,46,0.18);
+          }
+        }
+        
+        .gh-btn-primary:active {
           background: #2d2d4e;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 28px rgba(26,26,46,0.18);
-        }
-
-        /* ── Filter tabs ── */
-        .filter-tab {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 0.78rem; font-weight: 500;
-          letter-spacing: 0.08em; text-transform: uppercase;
-          padding: 0.5rem 1.4rem;
-          border-radius: 2px;
-          border: 1px solid var(--border);
-          background: transparent;
-          cursor: pointer;
-          transition: all 0.25s ease;
-          color: #aaa;
-        }
-        .filter-tab.active {
-          background: var(--dark);
-          color: #fff;
-          border-color: var(--dark);
-        }
-        .filter-tab:not(.active):hover {
-          border-color: var(--gold);
-          color: var(--dark);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 14px rgba(26,26,46,0.18);
         }
 
         /* ── Bottom accent line on hover ── */
@@ -314,30 +396,72 @@ const Projects: React.FC = () => {
           transition: background 0.4s ease;
         }
 
-        @media (max-width: 900px) {
-          .featured-card { grid-template-columns: 1fr !important; }
-          .featured-img-wrap { min-height: 240px !important; }
-          .proj-grid { grid-template-columns: 1fr 1fr !important; }
+        /* Mobile responsive breakpoints */
+        @media (max-width: 1024px) {
+          .featured-card { 
+            grid-template-columns: 1fr !important; 
+          }
+          .featured-img-wrap { 
+            min-height: 280px !important; 
+            height: 280px !important;
+          }
+          .proj-grid { 
+            grid-template-columns: repeat(2, 1fr) !important; 
+          }
         }
-        @media (max-width: 600px) {
-          .proj-grid { grid-template-columns: 1fr !important; }
+
+        @media (max-width: 640px) {
+          .featured-img-wrap { 
+            min-height: 220px !important; 
+            height: 220px !important;
+          }
+          
+          .featured-body {
+            padding: 1.5rem 1.5rem !important;
+          }
+          
+          .proj-grid { 
+            grid-template-columns: 1fr !important; 
+            gap: 1.2rem !important;
+          }
+          
+          .proj-body {
+            padding: 1.2rem 1.2rem 1.5rem !important;
+          }
+          
+          .featured-body h2 {
+            font-size: 1.6rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .featured-img-wrap { 
+            min-height: 200px !important; 
+            height: 200px !important;
+          }
         }
       `}</style>
 
       <div className="projects-page">
 
-        {/* Background orbs */}
+        {/* Background orbs - responsive */}
         <div style={{
           position:'absolute', top:'5%', right:'-100px',
-          width:'500px', height:'500px', borderRadius:'50%',
+          width:'clamp(300px, 70vw, 500px)', 
+          height:'clamp(300px, 70vw, 500px)', 
+          borderRadius:'50%',
           background:'radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%)',
-          filter:'blur(50px)', pointerEvents:'none'
+          filter:'blur(50px)', 
+          pointerEvents:'none'
         }}/>
         <div style={{
           position:'absolute', bottom:'10%', left:'-80px',
-          width:'380px', height:'380px', borderRadius:'50%',
+          width:'clamp(250px, 60vw, 380px)', 
+          height:'clamp(250px, 60vw, 380px)', 
+          borderRadius:'50%',
           background:'radial-gradient(circle, rgba(26,26,46,0.04) 0%, transparent 70%)',
-          filter:'blur(50px)', pointerEvents:'none'
+          filter:'blur(50px)', 
+          pointerEvents:'none'
         }}/>
         {/* Top accent line */}
         <div style={{
@@ -346,7 +470,11 @@ const Projects: React.FC = () => {
           opacity:0.5
         }}/>
 
-        <div style={{ maxWidth:'1140px', margin:'0 auto', padding:'5rem 2.5rem 7rem' }}>
+        <div style={{ 
+          maxWidth:'1140px', 
+          margin:'0 auto', 
+          padding:'3rem 1.5rem 5rem' 
+        }}>
 
           {/* ════ PAGE HEADER ════ */}
           <FadeUp>
@@ -355,23 +483,28 @@ const Projects: React.FC = () => {
               <span className="s-label-text">Portfolio</span>
             </div>
             <h1 className="serif" style={{
-              fontSize:'clamp(2.8rem,5vw,4.8rem)',
-              fontWeight:700, color:'#1a1a2e',
-              lineHeight:1.05, letterSpacing:'-0.02em',
+              fontSize:'clamp(2rem, 8vw, 4.8rem)',
+              fontWeight:700, 
+              color:'#1a1a2e',
+              lineHeight:1.05, 
+              letterSpacing:'-0.02em',
               marginBottom:'0.4rem'
             }}>
               My Projects
             </h1>
             <p className="serif" style={{
-              fontSize:'clamp(1rem,2vw,1.45rem)',
-              fontStyle:'italic', color:'#aaa', fontWeight:400, margin:0
+              fontSize:'clamp(0.9rem, 3vw, 1.45rem)',
+              fontStyle:'italic', 
+              color:'#aaa', 
+              fontWeight:400, 
+              margin:0
             }}>
               From university labs to the highest office
             </p>
           </FadeUp>
 
           {/* ════ FEATURED PROJECT ════ */}
-          <FadeUp delay={0.1} style={{ marginTop:'4rem' }}>
+          <FadeUp delay={0.1} style={{ marginTop:'3rem' }}>
             <div className="s-label">
               <div className="s-label-line"/>
               <span className="s-label-text">Featured Work</span>
@@ -380,7 +513,11 @@ const Projects: React.FC = () => {
             <div className="featured-card">
               {/* Large image */}
               <div className="featured-img-wrap">
-                <img src={featured.imageUrl} alt={featured.title} />
+                <img 
+                  src={featured.imageUrl} 
+                  alt={featured.title}
+                  loading="eager"
+                />
                 <div className="featured-img-overlay"/>
                 <span className="featured-badge">Featured</span>
               </div>
@@ -388,36 +525,56 @@ const Projects: React.FC = () => {
               {/* Body */}
               <div className="featured-body">
                 <span style={{
-                  fontSize:'0.74rem', fontWeight:500,
-                  color:'var(--gold)', letterSpacing:'0.08em',
-                  display:'block', marginBottom:'0.6rem'
+                  fontSize:'0.72rem', 
+                  fontWeight:500,
+                  color:'var(--gold)', 
+                  letterSpacing:'0.08em',
+                  display:'block', 
+                  marginBottom:'0.5rem'
                 }}>
                   {featured.year}
                 </span>
 
                 <h2 className="serif" style={{
-                  fontSize:'2rem', fontWeight:700,
-                  color:'#1a1a2e', lineHeight:1.2, marginBottom:'1rem'
+                  fontSize:'clamp(1.5rem, 5vw, 2rem)', 
+                  fontWeight:700,
+                  color:'#1a1a2e', 
+                  lineHeight:1.2, 
+                  marginBottom:'0.8rem'
                 }}>
                   {featured.title}
                 </h2>
 
-                <div className="gold-div" style={{ margin:'0 0 1.4rem' }}/>
+                <div className="gold-div" style={{ margin:'0 0 1.2rem' }}/>
 
                 <p style={{
-                  fontSize:'0.97rem', color:'#555',
-                  lineHeight:1.8, fontWeight:300, marginBottom:'1.6rem'
+                  fontSize:'clamp(0.9rem, 2.5vw, 0.97rem)', 
+                  color:'#555',
+                  lineHeight:1.7, 
+                  fontWeight:300, 
+                  marginBottom:'1.4rem'
                 }}>
                   {featured.description}
                 </p>
 
-                <div style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem', marginBottom:'2rem' }}>
+                <div style={{ 
+                  display:'flex', 
+                  flexWrap:'wrap', 
+                  gap:'0.5rem', 
+                  marginBottom:'1.8rem',
+                  justifyContent: 'flex-start'
+                }}>
                   {featured.technologies.map(t => (
                     <span key={t} className="tech-pill">{t}</span>
                   ))}
                 </div>
 
-                <a href={featured.githubUrl} target="_blank" rel="noopener noreferrer" className="gh-btn-primary">
+                <a 
+                  href={featured.githubUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="gh-btn-primary"
+                >
                   <GitHubIcon />
                   View on GitHub
                   <ArrowIcon />
@@ -427,11 +584,15 @@ const Projects: React.FC = () => {
           </FadeUp>
 
           {/* ════ ALL PROJECTS GRID ════ */}
-          <FadeUp delay={0.05} style={{ marginTop:'5.5rem' }}>
+          <FadeUp delay={0.05} style={{ marginTop:'4rem' }}>
             <div style={{
-              display:'flex', alignItems:'flex-end',
-              justifyContent:'space-between', flexWrap:'wrap', gap:'1rem',
-              marginBottom:'2.5rem'
+              display:'flex',
+              flexDirection: window.innerWidth <= 640 ? 'column' : 'row',
+              alignItems: window.innerWidth <= 640 ? 'flex-start' : 'flex-end',
+              justifyContent:'space-between', 
+              flexWrap:'wrap', 
+              gap:'1rem',
+              marginBottom:'2rem'
             }}>
               <div>
                 <div className="s-label">
@@ -439,8 +600,10 @@ const Projects: React.FC = () => {
                   <span className="s-label-text">All Work</span>
                 </div>
                 <h2 className="serif" style={{
-                  fontSize:'clamp(1.6rem,3vw,2.4rem)',
-                  color:'#1a1a2e', fontWeight:700, margin:0
+                  fontSize:'clamp(1.4rem, 4vw, 2.4rem)',
+                  color:'#1a1a2e', 
+                  fontWeight:700, 
+                  margin:0
                 }}>
                   More Projects
                 </h2>
@@ -449,9 +612,11 @@ const Projects: React.FC = () => {
               {/* Count badge */}
               <div style={{
                 fontFamily:"'DM Sans', sans-serif",
-                fontSize:'0.78rem', color:'#aaa',
-                letterSpacing:'0.06em', textTransform:'uppercase',
-                padding:'0.4rem 0',
+                fontSize:'0.75rem', 
+                color:'#aaa',
+                letterSpacing:'0.06em', 
+                textTransform:'uppercase',
+                padding:'0.3rem 0',
                 borderBottom:'1px solid rgba(0,0,0,0.1)'
               }}>
                 {rest.length} projects
@@ -463,7 +628,7 @@ const Projects: React.FC = () => {
               style={{
                 display:'grid',
                 gridTemplateColumns:'repeat(3, 1fr)',
-                gap:'1.6rem'
+                gap:'1.2rem'
               }}
             >
               {rest.map((project, i) => (
@@ -472,10 +637,15 @@ const Projects: React.FC = () => {
                     className="proj-card"
                     onMouseEnter={() => setHovered(i)}
                     onMouseLeave={() => setHovered(null)}
+                    onClick={() => {}} // Better mobile feedback
                   >
                     {/* Image */}
                     <div className="proj-img-wrap">
-                      <img src={project.imageUrl} alt={project.title} />
+                      <img 
+                        src={project.imageUrl} 
+                        alt={project.title}
+                        loading="lazy"
+                      />
                       <div className="proj-img-overlay"/>
                     </div>
 
@@ -483,25 +653,45 @@ const Projects: React.FC = () => {
                     <div className="proj-body">
                       <span className="proj-year">{project.year}</span>
                       <h3 className="serif" style={{
-                        fontSize:'1.12rem', fontWeight:700,
-                        color:'#1a1a2e', lineHeight:1.3, marginBottom:'0.8rem'
+                        fontSize:'clamp(1rem, 3vw, 1.12rem)', 
+                        fontWeight:700,
+                        color:'#1a1a2e', 
+                        lineHeight:1.3, 
+                        marginBottom:'0.7rem'
                       }}>
                         {project.title}
                       </h3>
                       <p style={{
-                        fontSize:'0.87rem', color:'#666',
-                        lineHeight:1.75, fontWeight:300, marginBottom:'1.2rem', flex:1
+                        fontSize:'clamp(0.8rem, 2.5vw, 0.87rem)', 
+                        color:'#666',
+                        lineHeight:1.6, 
+                        fontWeight:300, 
+                        marginBottom:'1rem', 
+                        flex:1
                       }}>
                         {project.description}
                       </p>
 
-                      <div style={{ display:'flex', flexWrap:'wrap', gap:'0.45rem', marginBottom:'1.4rem' }}>
-                        {project.technologies.map(t => (
+                      <div style={{ 
+                        display:'flex', 
+                        flexWrap:'wrap', 
+                        gap:'0.4rem', 
+                        marginBottom:'1.2rem' 
+                      }}>
+                        {project.technologies.slice(0, 4).map(t => (
                           <span key={t} className="tech-pill">{t}</span>
                         ))}
+                        {project.technologies.length > 4 && (
+                          <span className="tech-pill">+{project.technologies.length - 4}</span>
+                        )}
                       </div>
 
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="gh-btn">
+                      <a 
+                        href={project.githubUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="gh-btn"
+                      >
                         <GitHubIcon />
                         GitHub
                       </a>
@@ -523,26 +713,37 @@ const Projects: React.FC = () => {
           </FadeUp>
 
           {/* ════ BOTTOM CTA ════ */}
-          <FadeUp delay={0.05} style={{ marginTop:'5rem' }}>
+          <FadeUp delay={0.05} style={{ marginTop:'4rem' }}>
             <div style={{
               background:'rgba(255,255,255,0.82)',
               border:'1px solid rgba(0,0,0,0.07)',
               borderRadius:'6px',
-              padding:'3rem',
+              padding:'clamp(1.5rem, 5vw, 3rem)',
               backdropFilter:'blur(16px)',
               WebkitBackdropFilter:'blur(16px)',
               boxShadow:'0 4px 40px rgba(0,0,0,0.04)',
               display:'flex',
-              alignItems:'center',
+              flexDirection: window.innerWidth <= 640 ? 'column' : 'row',
+              alignItems: window.innerWidth <= 640 ? 'stretch' : 'center',
               justifyContent:'space-between',
-              gap:'2rem',
-              flexWrap:'wrap'
+              gap:'1.5rem',
+              textAlign: window.innerWidth <= 640 ? 'center' : 'left'
             }}>
               <div>
-                <h3 className="serif" style={{ fontSize:'1.6rem', color:'#1a1a2e', fontWeight:700, marginBottom:'0.5rem' }}>
+                <h3 className="serif" style={{ 
+                  fontSize:'clamp(1.3rem, 4vw, 1.6rem)', 
+                  color:'#1a1a2e', 
+                  fontWeight:700, 
+                  marginBottom:'0.5rem' 
+                }}>
                   Let's build something together
                 </h3>
-                <p style={{ fontSize:'0.95rem', color:'#888', fontWeight:300, margin:0 }}>
+                <p style={{ 
+                  fontSize:'clamp(0.9rem, 2.5vw, 0.95rem)', 
+                  color:'#888', 
+                  fontWeight:300, 
+                  margin:0 
+                }}>
                   Have a project in mind? I'd love to hear about it.
                 </p>
               </div>
@@ -550,15 +751,23 @@ const Projects: React.FC = () => {
                 href="/contact"
                 style={{
                   fontFamily:"'DM Sans', sans-serif",
-                  display:'inline-flex', alignItems:'center', gap:'10px',
-                  background:'#1a1a2e', color:'#fff',
+                  display:'inline-flex', 
+                  alignItems:'center', 
+                  justifyContent: 'center',
+                  gap:'10px',
+                  background:'#1a1a2e', 
+                  color:'#fff',
                   textDecoration:'none',
-                  padding:'0.9rem 2.2rem',
+                  padding:'0.8rem 2rem',
                   borderRadius:'3px',
-                  fontSize:'0.85rem', fontWeight:500,
-                  letterSpacing:'0.06em', textTransform:'uppercase',
-                  transition:'transform 0.25s, box-shadow 0.25s',
-                  whiteSpace:'nowrap'
+                  fontSize:'0.82rem', 
+                  fontWeight:500,
+                  letterSpacing:'0.06em', 
+                  textTransform:'uppercase',
+                  transition:'transform 0.2s, box-shadow 0.2s',
+                  whiteSpace:'nowrap',
+                  width: window.innerWidth <= 640 ? '100%' : 'auto',
+                  WebkitTapHighlightColor: 'transparent'
                 }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
