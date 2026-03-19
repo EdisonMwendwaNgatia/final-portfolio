@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 /* ── Intersection observer hook ── */
 const useInView = (threshold = 0.1) => {
@@ -6,8 +6,10 @@ const useInView = (threshold = 0.1) => {
   const [inView, setInView] = useState(false);
   useEffect(() => {
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setInView(true); },
-      { threshold, rootMargin: '50px' }
+      ([e]) => {
+        if (e.isIntersecting) setInView(true);
+      },
+      { threshold, rootMargin: "50px" },
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
@@ -26,9 +28,9 @@ const FadeUp: React.FC<{
       ref={ref}
       style={{
         opacity: inView ? 1 : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(22px)',
+        transform: inView ? "translateY(0)" : "translateY(22px)",
         transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
-        ...style
+        ...style,
       }}
     >
       {children}
@@ -39,61 +41,97 @@ const FadeUp: React.FC<{
 /* ── Data ── */
 const projects = [
   {
-    title: 'BLOCKHOUSE KENYA',
-    description: 'Blockchain-based property registry system presented to the President of Kenya. Provides immutable ownership records and tamper-proof asset transfer mechanisms, eliminating fraud inherent in centralized paper-based land administration systems. Built on Ethereum smart contracts with Truffle suite.',
-    technologies: ['React', 'Node.js', 'Solidity', 'Truffle', 'Ganache', 'MetaMask'],
-    year: '2025',
-    imageUrl: 'https://i.pinimg.com/736x/6f/8c/fe/6f8cfe905f15ffbbaaa56b1c77952866.jpg',
-    githubUrl: 'https://github.com/NgatiaEdison/BLOCKHOUSE_KE',
-    featured: true
+    title: "BLOCKHOUSE KENYA",
+    description:
+      "Blockchain-based property registry system presented to the President of Kenya. Provides immutable ownership records and tamper-proof asset transfer mechanisms, eliminating fraud inherent in centralized paper-based land administration systems. Built on Ethereum smart contracts with Truffle suite.",
+    technologies: [
+      "React",
+      "Node.js",
+      "Solidity",
+      "Truffle",
+      "Ganache",
+      "MetaMask",
+    ],
+    year: "2025",
+    imageUrl:
+      "https://i.pinimg.com/736x/6f/8c/fe/6f8cfe905f15ffbbaaa56b1c77952866.jpg",
+    githubUrl: "https://github.com/NgatiaEdison/BLOCKHOUSE_KE",
+    featured: true,
   },
   {
-    title: 'NCPB HelpDesk System',
-    description: 'Enterprise ticketing system deployed at National Cereals and Produce Board headquarters. Enables comprehensive issue tracking with ticket creation, assignment routing, status monitoring, escalation workflows, and closure reporting. Streamlines internal support operations across departments.',
-    technologies: ['React', 'Node.js', 'Firebase', 'Express.js'],
-    year: '2025',
-    imageUrl: 'https://i.pinimg.com/736x/1c/0c/8f/1c0c8f87d54e6968a8116c9e5d099e55.jpg',
-    githubUrl: 'https://github.com/EdisonMwendwaNgatia/HelpDesk-Command-Centre',
+    title: "NCPB HelpDesk System",
+    description:
+      "Enterprise ticketing system deployed at National Cereals and Produce Board headquarters. Enables comprehensive issue tracking with ticket creation, assignment routing, status monitoring, escalation workflows, and closure reporting. Streamlines internal support operations across departments.",
+    technologies: ["React", "Node.js", "Firebase", "Express.js"],
+    year: "2025",
+    imageUrl:
+      "https://i.pinimg.com/736x/1c/0c/8f/1c0c8f87d54e6968a8116c9e5d099e55.jpg",
+    githubUrl: "https://github.com/EdisonMwendwaNgatia/HelpDesk-Command-Centre",
   },
   {
-    title: 'WomenSafety',
-    description: 'Mobile safety application that detects distress events via accelerometer-based shake detection or manual panic trigger. Captures precise GPS coordinates through Android Location API and broadcasts immediate alerts to configured emergency contacts. Notifications include real-time location data with Google Maps deep links for rapid response coordination.',
-    technologies: ['Kotlin', 'Android Location API', 'SMS Gateway', 'Push Notifications'],
-    year: '2023',
-    imageUrl: 'https://i.pinimg.com/736x/96/08/03/96080379c0326bbd12a08b06c2dc175c.jpg',
-    githubUrl: 'https://github.com/EdisonMwendwaNgatia/WomenSafetyKT'
+    title: "WomenSafety",
+    description:
+      "Mobile safety application that detects distress events via accelerometer-based shake detection or manual panic trigger. Captures precise GPS coordinates through Android Location API and broadcasts immediate alerts to configured emergency contacts. Notifications include real-time location data with Google Maps deep links for rapid response coordination.",
+    technologies: [
+      "Kotlin",
+      "Android Location API",
+      "SMS Gateway",
+      "Push Notifications",
+    ],
+    year: "2023",
+    imageUrl:
+      "https://i.pinimg.com/736x/96/08/03/96080379c0326bbd12a08b06c2dc175c.jpg",
+    githubUrl: "https://github.com/EdisonMwendwaNgatia/WomenSafetyKT",
   },
   {
-    title: 'UMMA Visitors Management System',
-    description: 'Comprehensive visitor registration portal for institutional premises security. Manages check-in/check-out workflows with real-time tracking, automated overstay detection via push notifications, and comprehensive reporting suite. Features role-based access control for administrative users and complete audit logging.',
-    technologies: ['TypeScript', 'React', 'Firebase', 'Push Notifications'],
-    year: '2025',
-    imageUrl: 'https://i.pinimg.com/736x/f6/9d/b9/f69db9cc0722d401cfcd6cea9c78b81d.jpg',
-    githubUrl: 'https://github.com/EdisonMwendwaNgatia/umma-visitor-app'
+    title: "UMMA Visitors Management System",
+    description:
+      "Comprehensive visitor registration portal for institutional premises security. Manages check-in/check-out workflows with real-time tracking, automated overstay detection via push notifications, and comprehensive reporting suite. Features role-based access control for administrative users and complete audit logging.",
+    technologies: ["TypeScript", "React", "Firebase", "Push Notifications"],
+    year: "2025",
+    imageUrl:
+      "https://i.pinimg.com/736x/f6/9d/b9/f69db9cc0722d401cfcd6cea9c78b81d.jpg",
+    githubUrl: "https://github.com/EdisonMwendwaNgatia/umma-visitor-app",
   },
   {
-    title: 'Glowscan',
-    description: 'AI-powered dermatological analysis platform that performs real-time facial skin assessment. Leverages on-device ML Kit and cloud-based TensorFlow models for multi-class skin type classification, concern detection (acne, pigmentation, wrinkles), and personalized product regimen recommendations. Implements hybrid inference architecture for offline capability.',
-    technologies: ['Kotlin', 'ML Kit', 'TensorFlow Lite', 'face-api.js', 'Node.js'],
-    year: '2025',
-    imageUrl: 'https://i.pinimg.com/1200x/7c/e5/14/7ce514e5896c70ba7ea911374a82835e.jpg',
-    githubUrl: 'https://github.com/EdisonMwendwaNgatia/Glowscan'
+    title: "Glowscan",
+    description:
+      "AI-powered dermatological analysis platform that performs real-time facial skin assessment. Leverages on-device ML Kit and cloud-based TensorFlow models for multi-class skin type classification, concern detection (acne, pigmentation, wrinkles), and personalized product regimen recommendations. Implements hybrid inference architecture for offline capability.",
+    technologies: [
+      "Kotlin",
+      "ML Kit",
+      "TensorFlow Lite",
+      "face-api.js",
+      "Node.js",
+    ],
+    year: "2025",
+    imageUrl:
+      "https://i.pinimg.com/1200x/7c/e5/14/7ce514e5896c70ba7ea911374a82835e.jpg",
+    githubUrl: "https://github.com/EdisonMwendwaNgatia/Glowscan",
   },
   {
-    title: 'Tvee E-commerce Platform',
-    description: 'Full-featured digital commerce solution for retail operations. Implements product catalog management, secure shopping cart with persistent wishlist functionality, and streamlined checkout processing. Administrative dashboard provides inventory oversight, order management, and sales analytics. Built with modern Next.js architecture and Supabase backend.',
-    technologies: ['React', 'Next.js', 'Supabase', 'Payment Gateway Integration', 'REST APIs'],
-    year: '2026',
-    imageUrl: 'https://i.pinimg.com/736x/f7/27/e0/f727e0fac6dd17186bab055994495524.jpg',
-    githubUrl: 'https://github.com/EdisonMwendwaNgatia/Ecommerce-Store'
-  }
+    title: "Tvee E-commerce Platform",
+    description:
+      "Full-featured digital commerce solution for retail operations. Implements product catalog management, secure shopping cart with persistent wishlist functionality, and streamlined checkout processing. Administrative dashboard provides inventory oversight, order management, and sales analytics. Built with modern Next.js architecture and Supabase backend.",
+    technologies: [
+      "React",
+      "Next.js",
+      "Supabase",
+      "Payment Gateway Integration",
+      "REST APIs",
+    ],
+    year: "2026",
+    imageUrl:
+      "https://i.pinimg.com/736x/f7/27/e0/f727e0fac6dd17186bab055994495524.jpg",
+    githubUrl: "https://github.com/EdisonMwendwaNgatia/Ecommerce-Store",
+  },
 ];
 
 const Projects: React.FC = () => {
   const [hovered, setHovered] = useState<number | null>(null);
 
-  const featured = projects.find(p => p.featured)!;
-  const rest = projects.filter(p => !p.featured);
+  const featured = projects.find((p) => p.featured)!;
+  const rest = projects.filter((p) => !p.featured);
 
   return (
     <>
@@ -144,6 +182,28 @@ const Projects: React.FC = () => {
           background: linear-gradient(90deg, var(--gold), transparent);
           margin: 1.2rem 0;
         }
+
+        /* CTA Container Responsive */
+.cta-container {
+  flex-direction: row !important;
+  text-align: left !important;
+}
+
+.cta-button {
+  width: auto !important;
+}
+
+@media (max-width: 640px) {
+  .cta-container {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 1.2rem !important;
+  }
+  
+  .cta-button {
+    width: 100% !important;
+  }
+}
 
         /* ── Featured card ── */
         .featured-card {
@@ -443,136 +503,170 @@ const Projects: React.FC = () => {
       `}</style>
 
       <div className="projects-page">
-
         {/* Background orbs - responsive */}
-        <div style={{
-          position:'absolute', top:'5%', right:'-100px',
-          width:'clamp(300px, 70vw, 500px)', 
-          height:'clamp(300px, 70vw, 500px)', 
-          borderRadius:'50%',
-          background:'radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%)',
-          filter:'blur(50px)', 
-          pointerEvents:'none'
-        }}/>
-        <div style={{
-          position:'absolute', bottom:'10%', left:'-80px',
-          width:'clamp(250px, 60vw, 380px)', 
-          height:'clamp(250px, 60vw, 380px)', 
-          borderRadius:'50%',
-          background:'radial-gradient(circle, rgba(26,26,46,0.04) 0%, transparent 70%)',
-          filter:'blur(50px)', 
-          pointerEvents:'none'
-        }}/>
+        <div
+          style={{
+            position: "absolute",
+            top: "5%",
+            right: "-100px",
+            width: "clamp(300px, 70vw, 500px)",
+            height: "clamp(300px, 70vw, 500px)",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%)",
+            filter: "blur(50px)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10%",
+            left: "-80px",
+            width: "clamp(250px, 60vw, 380px)",
+            height: "clamp(250px, 60vw, 380px)",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(26,26,46,0.04) 0%, transparent 70%)",
+            filter: "blur(50px)",
+            pointerEvents: "none",
+          }}
+        />
         {/* Top accent line */}
-        <div style={{
-          position:'absolute', top:0, left:0, right:0, height:'2px',
-          background:'linear-gradient(90deg, transparent 0%, #c9a96e 50%, transparent 100%)',
-          opacity:0.5
-        }}/>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "2px",
+            background:
+              "linear-gradient(90deg, transparent 0%, #c9a96e 50%, transparent 100%)",
+            opacity: 0.5,
+          }}
+        />
 
-        <div style={{ 
-          maxWidth:'1140px', 
-          margin:'0 auto', 
-          padding:'3rem 1.5rem 5rem' 
-        }}>
-
+        <div
+          style={{
+            maxWidth: "1140px",
+            margin: "0 auto",
+            padding: "3rem 1.5rem 5rem",
+          }}
+        >
           {/* ════ PAGE HEADER ════ */}
           <FadeUp>
             <div className="s-label">
-              <div className="s-label-line"/>
+              <div className="s-label-line" />
               <span className="s-label-text">Portfolio</span>
             </div>
-            <h1 className="serif" style={{
-              fontSize:'clamp(2rem, 8vw, 4.8rem)',
-              fontWeight:700, 
-              color:'#1a1a2e',
-              lineHeight:1.05, 
-              letterSpacing:'-0.02em',
-              marginBottom:'0.4rem'
-            }}>
+            <h1
+              className="serif"
+              style={{
+                fontSize: "clamp(2rem, 8vw, 4.8rem)",
+                fontWeight: 700,
+                color: "#1a1a2e",
+                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                marginBottom: "0.4rem",
+              }}
+            >
               My Projects
             </h1>
-            <p className="serif" style={{
-              fontSize:'clamp(0.9rem, 3vw, 1.45rem)',
-              fontStyle:'italic', 
-              color:'#aaa', 
-              fontWeight:400, 
-              margin:0
-            }}>
+            <p
+              className="serif"
+              style={{
+                fontSize: "clamp(0.9rem, 3vw, 1.45rem)",
+                fontStyle: "italic",
+                color: "#aaa",
+                fontWeight: 400,
+                margin: 0,
+              }}
+            >
               From university labs to the highest office
             </p>
           </FadeUp>
 
           {/* ════ FEATURED PROJECT ════ */}
-          <FadeUp delay={0.1} style={{ marginTop:'3rem' }}>
+          <FadeUp delay={0.1} style={{ marginTop: "3rem" }}>
             <div className="s-label">
-              <div className="s-label-line"/>
+              <div className="s-label-line" />
               <span className="s-label-text">Featured Work</span>
             </div>
 
             <div className="featured-card">
               {/* Large image */}
               <div className="featured-img-wrap">
-                <img 
-                  src={featured.imageUrl} 
+                <img
+                  src={featured.imageUrl}
                   alt={featured.title}
                   loading="eager"
                 />
-                <div className="featured-img-overlay"/>
+                <div className="featured-img-overlay" />
                 <span className="featured-badge">Featured</span>
               </div>
 
               {/* Body */}
               <div className="featured-body">
-                <span style={{
-                  fontSize:'0.72rem', 
-                  fontWeight:500,
-                  color:'var(--gold)', 
-                  letterSpacing:'0.08em',
-                  display:'block', 
-                  marginBottom:'0.5rem'
-                }}>
+                <span
+                  style={{
+                    fontSize: "0.72rem",
+                    fontWeight: 500,
+                    color: "var(--gold)",
+                    letterSpacing: "0.08em",
+                    display: "block",
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   {featured.year}
                 </span>
 
-                <h2 className="serif" style={{
-                  fontSize:'clamp(1.5rem, 5vw, 2rem)', 
-                  fontWeight:700,
-                  color:'#1a1a2e', 
-                  lineHeight:1.2, 
-                  marginBottom:'0.8rem'
-                }}>
+                <h2
+                  className="serif"
+                  style={{
+                    fontSize: "clamp(1.5rem, 5vw, 2rem)",
+                    fontWeight: 700,
+                    color: "#1a1a2e",
+                    lineHeight: 1.2,
+                    marginBottom: "0.8rem",
+                  }}
+                >
                   {featured.title}
                 </h2>
 
-                <div className="gold-div" style={{ margin:'0 0 1.2rem' }}/>
+                <div className="gold-div" style={{ margin: "0 0 1.2rem" }} />
 
-                <p style={{
-                  fontSize:'clamp(0.9rem, 2.5vw, 0.97rem)', 
-                  color:'#555',
-                  lineHeight:1.7, 
-                  fontWeight:300, 
-                  marginBottom:'1.4rem'
-                }}>
+                <p
+                  style={{
+                    fontSize: "clamp(0.9rem, 2.5vw, 0.97rem)",
+                    color: "#555",
+                    lineHeight: 1.7,
+                    fontWeight: 300,
+                    marginBottom: "1.4rem",
+                  }}
+                >
                   {featured.description}
                 </p>
 
-                <div style={{ 
-                  display:'flex', 
-                  flexWrap:'wrap', 
-                  gap:'0.5rem', 
-                  marginBottom:'1.8rem',
-                  justifyContent: 'flex-start'
-                }}>
-                  {featured.technologies.map(t => (
-                    <span key={t} className="tech-pill">{t}</span>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.5rem",
+                    marginBottom: "1.8rem",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  {featured.technologies.map((t) => (
+                    <span key={t} className="tech-pill">
+                      {t}
+                    </span>
                   ))}
                 </div>
 
-                <a 
-                  href={featured.githubUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={featured.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="gh-btn-primary"
                 >
                   <GitHubIcon />
@@ -584,41 +678,49 @@ const Projects: React.FC = () => {
           </FadeUp>
 
           {/* ════ ALL PROJECTS GRID ════ */}
-          <FadeUp delay={0.05} style={{ marginTop:'4rem' }}>
-            <div style={{
-              display:'flex',
-              flexDirection: window.innerWidth <= 640 ? 'column' : 'row',
-              alignItems: window.innerWidth <= 640 ? 'flex-start' : 'flex-end',
-              justifyContent:'space-between', 
-              flexWrap:'wrap', 
-              gap:'1rem',
-              marginBottom:'2rem'
-            }}>
+          <FadeUp delay={0.05} style={{ marginTop: "4rem" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: window.innerWidth <= 640 ? "column" : "row",
+                alignItems:
+                  window.innerWidth <= 640 ? "flex-start" : "flex-end",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: "1rem",
+                marginBottom: "2rem",
+              }}
+            >
               <div>
                 <div className="s-label">
-                  <div className="s-label-line"/>
+                  <div className="s-label-line" />
                   <span className="s-label-text">All Work</span>
                 </div>
-                <h2 className="serif" style={{
-                  fontSize:'clamp(1.4rem, 4vw, 2.4rem)',
-                  color:'#1a1a2e', 
-                  fontWeight:700, 
-                  margin:0
-                }}>
+                <h2
+                  className="serif"
+                  style={{
+                    fontSize: "clamp(1.4rem, 4vw, 2.4rem)",
+                    color: "#1a1a2e",
+                    fontWeight: 700,
+                    margin: 0,
+                  }}
+                >
                   More Projects
                 </h2>
               </div>
 
               {/* Count badge */}
-              <div style={{
-                fontFamily:"'DM Sans', sans-serif",
-                fontSize:'0.75rem', 
-                color:'#aaa',
-                letterSpacing:'0.06em', 
-                textTransform:'uppercase',
-                padding:'0.3rem 0',
-                borderBottom:'1px solid rgba(0,0,0,0.1)'
-              }}>
+              <div
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.75rem",
+                  color: "#aaa",
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  padding: "0.3rem 0",
+                  borderBottom: "1px solid rgba(0,0,0,0.1)",
+                }}
+              >
                 {rest.length} projects
               </div>
             </div>
@@ -626,9 +728,9 @@ const Projects: React.FC = () => {
             <div
               className="proj-grid"
               style={{
-                display:'grid',
-                gridTemplateColumns:'repeat(3, 1fr)',
-                gap:'1.2rem'
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "1.2rem",
               }}
             >
               {rest.map((project, i) => (
@@ -641,55 +743,66 @@ const Projects: React.FC = () => {
                   >
                     {/* Image */}
                     <div className="proj-img-wrap">
-                      <img 
-                        src={project.imageUrl} 
+                      <img
+                        src={project.imageUrl}
                         alt={project.title}
                         loading="lazy"
                       />
-                      <div className="proj-img-overlay"/>
+                      <div className="proj-img-overlay" />
                     </div>
 
                     {/* Body */}
                     <div className="proj-body">
                       <span className="proj-year">{project.year}</span>
-                      <h3 className="serif" style={{
-                        fontSize:'clamp(1rem, 3vw, 1.12rem)', 
-                        fontWeight:700,
-                        color:'#1a1a2e', 
-                        lineHeight:1.3, 
-                        marginBottom:'0.7rem'
-                      }}>
+                      <h3
+                        className="serif"
+                        style={{
+                          fontSize: "clamp(1rem, 3vw, 1.12rem)",
+                          fontWeight: 700,
+                          color: "#1a1a2e",
+                          lineHeight: 1.3,
+                          marginBottom: "0.7rem",
+                        }}
+                      >
                         {project.title}
                       </h3>
-                      <p style={{
-                        fontSize:'clamp(0.8rem, 2.5vw, 0.87rem)', 
-                        color:'#666',
-                        lineHeight:1.6, 
-                        fontWeight:300, 
-                        marginBottom:'1rem', 
-                        flex:1
-                      }}>
+                      <p
+                        style={{
+                          fontSize: "clamp(0.8rem, 2.5vw, 0.87rem)",
+                          color: "#666",
+                          lineHeight: 1.6,
+                          fontWeight: 300,
+                          marginBottom: "1rem",
+                          flex: 1,
+                        }}
+                      >
                         {project.description}
                       </p>
 
-                      <div style={{ 
-                        display:'flex', 
-                        flexWrap:'wrap', 
-                        gap:'0.4rem', 
-                        marginBottom:'1.2rem' 
-                      }}>
-                        {project.technologies.slice(0, 4).map(t => (
-                          <span key={t} className="tech-pill">{t}</span>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: "0.4rem",
+                          marginBottom: "1.2rem",
+                        }}
+                      >
+                        {project.technologies.slice(0, 4).map((t) => (
+                          <span key={t} className="tech-pill">
+                            {t}
+                          </span>
                         ))}
                         {project.technologies.length > 4 && (
-                          <span className="tech-pill">+{project.technologies.length - 4}</span>
+                          <span className="tech-pill">
+                            +{project.technologies.length - 4}
+                          </span>
                         )}
                       </div>
 
-                      <a 
-                        href={project.githubUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="gh-btn"
                       >
                         <GitHubIcon />
@@ -701,9 +814,10 @@ const Projects: React.FC = () => {
                     <div
                       className="proj-accent-line"
                       style={{
-                        background: hovered === i
-                          ? 'linear-gradient(90deg, #c9a96e, transparent)'
-                          : 'transparent'
+                        background:
+                          hovered === i
+                            ? "linear-gradient(90deg, #c9a96e, transparent)"
+                            : "transparent",
                       }}
                     />
                   </div>
@@ -713,69 +827,80 @@ const Projects: React.FC = () => {
           </FadeUp>
 
           {/* ════ BOTTOM CTA ════ */}
-          <FadeUp delay={0.05} style={{ marginTop:'4rem' }}>
-            <div style={{
-              background:'rgba(255,255,255,0.82)',
-              border:'1px solid rgba(0,0,0,0.07)',
-              borderRadius:'6px',
-              padding:'clamp(1.5rem, 5vw, 3rem)',
-              backdropFilter:'blur(16px)',
-              WebkitBackdropFilter:'blur(16px)',
-              boxShadow:'0 4px 40px rgba(0,0,0,0.04)',
-              display:'flex',
-              flexDirection: window.innerWidth <= 640 ? 'column' : 'row',
-              alignItems: window.innerWidth <= 640 ? 'stretch' : 'center',
-              justifyContent:'space-between',
-              gap:'1.5rem',
-              textAlign: window.innerWidth <= 640 ? 'center' : 'left'
-            }}>
+          <FadeUp delay={0.05} style={{ marginTop: "4rem" }}>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.82)",
+                border: "1px solid rgba(0,0,0,0.07)",
+                borderRadius: "6px",
+                padding: "clamp(1.5rem, 5vw, 3rem)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+                boxShadow: "0 4px 40px rgba(0,0,0,0.04)",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "2rem",
+                textAlign: "left",
+              }}
+              className="cta-container"
+            >
               <div>
-                <h3 className="serif" style={{ 
-                  fontSize:'clamp(1.3rem, 4vw, 1.6rem)', 
-                  color:'#1a1a2e', 
-                  fontWeight:700, 
-                  marginBottom:'0.5rem' 
-                }}>
+                <h3
+                  className="serif"
+                  style={{
+                    fontSize: "clamp(1.3rem, 4vw, 1.6rem)",
+                    color: "#1a1a2e",
+                    fontWeight: 700,
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   Let's build something together
                 </h3>
-                <p style={{ 
-                  fontSize:'clamp(0.9rem, 2.5vw, 0.95rem)', 
-                  color:'#888', 
-                  fontWeight:300, 
-                  margin:0 
-                }}>
+                <p
+                  style={{
+                    fontSize: "clamp(0.9rem, 2.5vw, 0.95rem)",
+                    color: "#888",
+                    fontWeight: 300,
+                    margin: 0,
+                  }}
+                >
                   Have a project in mind? I'd love to hear about it.
                 </p>
               </div>
               <a
                 href="/contact"
+                className="cta-button"
                 style={{
-                  fontFamily:"'DM Sans', sans-serif",
-                  display:'inline-flex', 
-                  alignItems:'center', 
-                  justifyContent: 'center',
-                  gap:'10px',
-                  background:'#1a1a2e', 
-                  color:'#fff',
-                  textDecoration:'none',
-                  padding:'0.8rem 2rem',
-                  borderRadius:'3px',
-                  fontSize:'0.82rem', 
-                  fontWeight:500,
-                  letterSpacing:'0.06em', 
-                  textTransform:'uppercase',
-                  transition:'transform 0.2s, box-shadow 0.2s',
-                  whiteSpace:'nowrap',
-                  width: window.innerWidth <= 640 ? '100%' : 'auto',
-                  WebkitTapHighlightColor: 'transparent'
+                  fontFamily: "'DM Sans', sans-serif",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  background: "#1a1a2e",
+                  color: "#fff",
+                  textDecoration: "none",
+                  padding: "0.8rem 2rem",
+                  borderRadius: "3px",
+                  fontSize: "0.82rem",
+                  fontWeight: 500,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  transition: "transform 0.2s, box-shadow 0.2s",
+                  whiteSpace: "nowrap",
+                  WebkitTapHighlightColor: "transparent",
                 }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 28px rgba(26,26,46,0.18)';
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "translateY(-2px)";
+                  (e.currentTarget as HTMLElement).style.boxShadow =
+                    "0 8px 28px rgba(26,26,46,0.18)";
                 }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "translateY(0)";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
                 }}
               >
                 Get in Touch
@@ -783,7 +908,6 @@ const Projects: React.FC = () => {
               </a>
             </div>
           </FadeUp>
-
         </div>
       </div>
     </>
@@ -793,13 +917,19 @@ const Projects: React.FC = () => {
 /* ── Icon helpers ── */
 const GitHubIcon = () => (
   <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor">
-    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
   </svg>
 );
 
 const ArrowIcon = () => (
   <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-    <path d="M1.5 11.5L11.5 1.5M11.5 1.5H4.5M11.5 1.5V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path
+      d="M1.5 11.5L11.5 1.5M11.5 1.5H4.5M11.5 1.5V8.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
