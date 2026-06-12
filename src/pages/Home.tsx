@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 
 /* ── Animated counter hook ── */
 const useCounter = (target: number, duration = 1800, started = false) => {
@@ -834,7 +835,11 @@ const Home: React.FC = () => {
                 padding: "0 1rem",
               }}
             >
-              <button className="btn-primary">
+              <Link
+                to="/projects"
+                className="btn-primary"
+                style={{ textDecoration: "none" }}
+              >
                 View My Work
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path
@@ -845,8 +850,14 @@ const Home: React.FC = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </button>
-              <button className="btn-secondary">Contact Me</button>
+              </Link>
+              <Link
+                to="/contact"
+                className="btn-secondary"
+                style={{ textDecoration: "none" }}
+              >
+                Contact Me
+              </Link>
             </div>
           </div>
 

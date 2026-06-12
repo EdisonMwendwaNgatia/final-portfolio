@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 /* ── Intersection observer hook ── */
 const useInView = (threshold = 0.1) => {
@@ -80,7 +81,6 @@ const GitHubIcon = () => (
   </svg>
 );
 
-// WhatsApp Icon - remove any specific coloring, it will inherit from parent
 const WhatsAppIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -92,6 +92,7 @@ const WhatsAppIcon = () => (
    MAIN COMPONENT
 ══════════════════════════════════════════════ */
 const Contact: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -100,33 +101,91 @@ const Contact: React.FC = () => {
     message: string;
   }>({ type: null, message: '' });
 
+  // Initialize EmailJS with your public key
+  useEffect(() => {
+    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+    }
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e?: React.SyntheticEvent) => {
-    e?.preventDefault?.();
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setSubmitStatus({ type: null, message: '' });
 
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setSubmitStatus({ type: 'error', message: 'Please fill in name, email and message before sending.' });
+    // Validation
+    if (!formData.name.trim()) {
+      setSubmitStatus({ type: 'error', message: 'Please enter your name.' });
+      return;
+    }
+    
+    if (!formData.email.trim()) {
+      setSubmitStatus({ type: 'error', message: 'Please enter your email address.' });
+      return;
+    }
+    
+    if (!validateEmail(formData.email)) {
+      setSubmitStatus({ type: 'error', message: 'Please enter a valid email address.' });
+      return;
+    }
+    
+    if (!formData.message.trim()) {
+      setSubmitStatus({ type: 'error', message: 'Please enter your message.' });
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      const to = 'ryanedinson@gmail.com';
-      const subject = `Contact from ${formData.name}`;
-      const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`;
-      const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+      const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
 
-      window.location.href = mailto;
+      if (!serviceId || !templateId) {
+        throw new Error('EmailJS configuration missing');
+      }
 
-      setSubmitStatus({ type: 'success', message: "Opening your email client..." });
-      setFormData({ name: '', email: '', message: '' });
-    } catch (err) {
-      setSubmitStatus({ type: 'error', message: 'Unable to open email client. Please copy your message and email manually.' });
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: 'Edison',
+        reply_to: formData.email,
+      };
+
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams
+      );
+
+      if (response.status === 200) {
+        setSubmitStatus({ 
+          type: 'success', 
+          message: 'Message sent successfully! I\'ll get back to you soon.' 
+        });
+        setFormData({ name: '', email: '', message: '' });
+        
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setSubmitStatus({ type: null, message: '' });
+        }, 5000);
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Failed to send message. Please try again or email me directly at ryanedinson@gmail.com' 
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -573,6 +632,9 @@ const Contact: React.FC = () => {
                     <img
                       src={`${process.env.PUBLIC_URL || ''}/gallery/profile.png`}
                       alt="Edison Mwendwa"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100?text=EM';
+                      }}
                     />
                   </div>
 
@@ -677,13 +739,12 @@ const Contact: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* WhatsApp contact item - NO whatsapp-btn class, so it inherits gold color */}
                   <div 
                     className="contact-item" 
                     onClick={handleWhatsApp}
                     style={{ cursor: 'pointer' }}
                   >
-                    <div className="contact-icon-wrap">{/* Removed whatsapp-btn class */}
+                    <div className="contact-icon-wrap">
                       <WhatsAppIcon/>
                     </div>
                     <div>
@@ -751,7 +812,7 @@ const Contact: React.FC = () => {
                         target={s.label !== 'WhatsApp' ? "_blank" : undefined}
                         rel={s.label !== 'WhatsApp' ? "noopener noreferrer" : undefined}
                         onClick={s.label === 'WhatsApp' ? (e) => { e.preventDefault(); handleWhatsApp(); } : undefined}
-                        className="social-btn" // Removed conditional whatsapp-btn class
+                        className="social-btn"
                         title={s.label}
                         aria-label={s.label}
                       >
@@ -805,7 +866,7 @@ const Contact: React.FC = () => {
                 )}
 
                 {/* Form */}
-                <div style={{ display:'flex', flexDirection:'column', gap:'1.4rem' }}>
+                <form ref={formRef} onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1.4rem' }}>
 
                   {/* Name + Email row */}
                   <div 
@@ -828,6 +889,7 @@ const Contact: React.FC = () => {
                         onBlur={() => setFocusedField(null)}
                         placeholder="Your name"
                         style={inputStyle('name')}
+                        required
                       />
                     </div>
                     <div>
@@ -842,6 +904,7 @@ const Contact: React.FC = () => {
                         onBlur={() => setFocusedField(null)}
                         placeholder="your@email.com"
                         style={inputStyle('email')}
+                        required
                       />
                     </div>
                   </div>
@@ -864,14 +927,15 @@ const Contact: React.FC = () => {
                         lineHeight:1.6,
                         minHeight: '120px'
                       }}
+                      required
                     />
                   </div>
 
                   {/* Submit */}
                   <button
+                    type="submit"
                     className="submit-btn"
                     disabled={isSubmitting}
-                    onClick={handleSubmit as unknown as React.MouseEventHandler}
                   >
                     {isSubmitting ? (
                       <>
@@ -885,7 +949,7 @@ const Contact: React.FC = () => {
                       </>
                     )}
                   </button>
-                </div>
+                </form>
 
                 {/* Footer note */}
                 <p style={{

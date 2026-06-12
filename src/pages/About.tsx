@@ -9,7 +9,7 @@ const useInView = (threshold = 0.12) => {
       ([e]) => {
         if (e.isIntersecting) setInView(true);
       },
-      { threshold, rootMargin: '50px' },
+      { threshold, rootMargin: "50px" },
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
@@ -39,27 +39,24 @@ const FadeUp: React.FC<{
   );
 };
 
-/* ── Data ── */
-const skills = [
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "React Native",
-  "Next.js",
-  "Node.js",
-  "Java",
-  "Kotlin",
-  "Express.js",
-  "HTML & CSS",
-  "Solidity",
-  "Firebase",
-  "Supabase",
-  "RESTful APIs",
-  "Truffle",
-  "Git & GitHub",
-  "UI/UX Design",
-  "Vercel & Netlify",
-  "Render",
+/* ── Grouped Skills Data ── */
+const skillCategories = [
+  {
+    title: "Frontend",
+    skills: ["JavaScript", "TypeScript", "React", "React Native", "Next.js", "HTML & CSS", "UI/UX Design"]
+  },
+  {
+    title: "Backend",
+    skills: ["Node.js", "Java", "Kotlin", "Express.js", "RESTful APIs", "Solidity"]
+  },
+  {
+    title: "Database",
+    skills: ["Firebase", "Supabase"]
+  },
+  {
+    title: "DevOps & Cloud",
+    skills: ["Docker", "Kubernetes", "Git & GitHub", "Vercel & Netlify", "Render", "Truffle"]
+  }
 ];
 
 const experiences = [
@@ -68,21 +65,23 @@ const experiences = [
     date: "Jan 2025 — Apr 2025",
     tag: "Industry",
     desc: "Gained hands-on experience in software development and technical tasks at the National Cereals and Produce Board headquarters. Worked on internal tools that streamline operations within the organization.",
-    img: "https://i.pinimg.com/736x/db/04/e0/db04e012afbe6dd55fcf8990b62f2273.jpg",
+    img: "/gallery/ncpb.jpg",
   },
   {
     title: "Presidential Showcase — BLOCKHOUSE KENYA",
     date: "2025",
     tag: "Recognition",
-    desc: "Presented BLOCKHOUSE KENYA, an innovative blockchain solution, to H.E. the President of Kenya at Umma Univesity. Demonstrated how technology can revolutionize Kenya's housing sector by having tamper proof asset transfer.",
-    img:"https://i.pinimg.com/736x/6f/8c/fe/6f8cfe905f15ffbbaaa56b1c77952866.jpg"
+    desc: "Presented BLOCKHOUSE KENYA, an innovative blockchain solution, to H.E. the President of Kenya at Umma University. Demonstrated how technology can revolutionize Kenya's housing sector by having tamper proof asset transfer.",
+    youtubeId: "TSBLxqF1I8g",
+    startTime: 1000,
+    img: "https://i.pinimg.com/736x/6f/8c/fe/6f8cfe905f15ffbbaaa56b1c77952866.jpg",
   },
   {
     title: "React Native Tutor — Umma University TechHub",
     date: "2023 — 2025",
     tag: "Teaching",
     desc: "Mentored over 30 students in React Native development and Blockchain. Conducted weekly workshops, code reviews, and helped students code their first mobile apps",
-    img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&h=400&fit=crop",
+    img: "/gallery/umma6.jpg",
   },
 ];
 
@@ -162,6 +161,76 @@ const About: React.FC = () => {
           transform: scale(0.98);
         }
 
+        /* Skill Category Card */
+        .skill-category-card {
+          background: var(--card-bg);
+          border: 1px solid var(--border);
+          border-radius: 6px;
+          padding: 1.2rem;
+          transition: all 0.3s ease;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+
+        @media (hover: hover) {
+          .skill-category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+            border-color: rgba(201,169,110,0.3);
+          }
+        }
+
+        .skill-category-title {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 1rem;
+          padding-bottom: 0.75rem;
+          border-bottom: 1px solid rgba(201,169,110,0.3);
+        }
+
+        .skill-category-title .s-label-line {
+          width: 24px;
+          height: 1px;
+          background: var(--gold);
+        }
+
+        .skill-category-title h3 {
+          font-size: 1rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin: 0;
+          color: var(--gold);
+        }
+
+        .skill-items {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .skill-badge {
+          display: inline-block;
+          font-size: 0.7rem;
+          font-weight: 500;
+          color: var(--dark);
+          background: rgba(255,255,255,0.75);
+          border: 1px solid var(--border);
+          padding: 0.3rem 0.8rem;
+          border-radius: 2px;
+          transition: all 0.2s ease;
+        }
+
+        @media (hover: hover) {
+          .skill-badge:hover {
+            border-color: var(--gold);
+            background: rgba(201,169,110,0.06);
+            transform: translateY(-1px);
+          }
+        }
+
         .skill-pill {
           display: inline-block;
           font-size: clamp(0.7rem, 2.5vw, 0.78rem); 
@@ -219,10 +288,10 @@ const About: React.FC = () => {
         }
 
         .exp-img-wrap {
+          position: relative;
           width: 100%;
           height: 200px;
           overflow: hidden;
-          position: relative;
           flex-shrink: 0;
         }
         
@@ -245,10 +314,17 @@ const About: React.FC = () => {
             transform: scale(1.06);
           }
         }
+        
+        .exp-card:hover .exp-img-wrap iframe {
+          opacity: 1;
+        }
 
         .exp-img-overlay {
-          position: absolute; inset: 0;
+          position: absolute; 
+          inset: 0;
           background: linear-gradient(to bottom, transparent 45%, rgba(26,26,46,0.22) 100%);
+          pointer-events: none;
+          z-index: 1;
         }
 
         .exp-tag-badge {
@@ -265,6 +341,7 @@ const About: React.FC = () => {
           padding: 0.2rem 0.7rem;
           border-radius: 2px;
           backdrop-filter: blur(8px);
+          z-index: 2;
         }
 
         .exp-body {
@@ -294,6 +371,17 @@ const About: React.FC = () => {
           transition: background 0.4s ease;
         }
 
+        .exp-img-wrap iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: 0;
+          pointer-events: auto;
+          z-index: 0;
+        }
+
         .hl-item {
           display: flex; 
           align-items: flex-start; 
@@ -316,7 +404,21 @@ const About: React.FC = () => {
           to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Mobile responsive grid overrides */
+        /* Skills grid - 2x2 */
+        .skills-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.2rem;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+          .skills-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+        }
+
         @media (max-width: 1024px) {
           .two-col { 
             grid-template-columns: 1fr !important; 
@@ -484,8 +586,8 @@ const About: React.FC = () => {
                 >
                   At my core, I just want to build things that help people.
                   Doesn't matter if it's a safety tool, a teaching moment, or
-                  something that makes a tedious process suck less. If it
-                  solves a real problem, I'm in.
+                  something that makes a tedious process suck less. If it solves
+                  a real problem, I'm in.
                 </p>
               </div>
             </FadeUp>
@@ -595,7 +697,7 @@ const About: React.FC = () => {
             </div>
           </div>
 
-          {/* ════ SKILLS ════ */}
+          {/* ════ SKILLS - 2x2 GRID ════ */}
           <FadeUp delay={0.05} style={{ marginTop: "3rem" }}>
             <div className="glass-card" style={{ padding: "1.8rem 1.5rem" }}>
               <div className="s-label">
@@ -608,27 +710,33 @@ const About: React.FC = () => {
                   fontSize: "clamp(1.4rem, 4vw, 1.8rem)",
                   color: "#1a1a2e",
                   fontWeight: 700,
-                  marginBottom: "1.2rem",
+                  marginBottom: "1.5rem",
                 }}
               >
                 Tools & Technologies
               </h2>
-              <div style={{ 
-                display: "flex", 
-                flexWrap: "wrap", 
-                gap: "0.5rem",
-                justifyContent: "center"
-              }}>
-                {skills.map((s, i) => (
-                  <span
-                    key={s}
-                    className="skill-pill"
+              
+              <div className="skills-grid">
+                {skillCategories.map((category, idx) => (
+                  <div
+                    key={category.title}
+                    className="skill-category-card"
                     style={{
-                      animation: `skillIn 0.45s ease ${0.03 * i + 0.1}s both`,
+                      animation: `skillIn 0.45s ease ${0.05 * idx + 0.1}s both`,
                     }}
                   >
-                    {s}
-                  </span>
+                    <div className="skill-category-title">
+                      <div className="s-label-line" />
+                      <h3>{category.title}</h3>
+                    </div>
+                    <div className="skill-items">
+                      {category.skills.map((skill) => (
+                        <span key={skill} className="skill-badge">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -668,15 +776,23 @@ const About: React.FC = () => {
                   className="exp-card"
                   onMouseEnter={() => setHoveredExp(i)}
                   onMouseLeave={() => setHoveredExp(null)}
-                  onClick={() => {}} // Empty onClick for better mobile feedback
+                  onClick={() => {}}
                 >
-                  {/* Big image */}
+                  {/* Video/Image container */}
                   <div className="exp-img-wrap">
-                    <img 
-                      src={exp.img} 
-                      alt={exp.title}
-                      loading="lazy"
-                    />
+                    {exp.youtubeId ? (
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${exp.youtubeId}?start=${exp.startTime || 0}&autoplay=0&controls=1&modestbranding=1&rel=0`}
+                        title={exp.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    ) : (
+                      <img src={exp.img} alt={exp.title} loading="lazy" />
+                    )}
                     <div className="exp-img-overlay" />
                     <span className="exp-tag-badge">{exp.tag}</span>
                   </div>
