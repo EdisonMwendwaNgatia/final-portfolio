@@ -1,374 +1,15 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-/* ── Animated counter hook ── */
-const useCounter = (target: number, duration = 1800, started = false) => {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!started) return;
-    setCount(0);
-    let start = 0;
-    const step = Math.ceil(target / (duration / 16));
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else setCount(start);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [started, target, duration]);
-  return count;
-};
-
-const stats = [
-  {
-    value: 2,
-    suffix: "+",
-    label: "Years of Experience",
-    sublabel: "Building production-grade software",
-  },
-  {
-    value: 20,
-    suffix: "+",
-    label: "Students Mentored",
-    sublabel: "React Native · Umma TechHub",
-  },
-  {
-    value: 40,
-    suffix: "+",
-    label: "Projects Built",
-    sublabel: "Web · Mobile · Enterprise tools",
-  },
-];
-
-const StatCard: React.FC<{
-  item: (typeof stats)[0];
-  visible: boolean;
-  started: boolean;
-  fast: boolean;
-}> = ({ item, visible, started, fast }) => {
-  const [counted, setCounted] = useState(false);
-  useEffect(() => {
-    if (visible && started) setCounted(true);
-  }, [visible, started]);
-  const count = useCounter(item.value, fast ? 600 : 1400, counted);
-
-  return (
-    <div
-      style={{
-        position: "absolute",
-        inset: 0,
-        opacity: visible ? 1 : 0,
-        transform: visible
-          ? "scale(1) translateY(0)"
-          : "scale(0.94) translateY(12px)",
-        transition:
-          "opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1)",
-        pointerEvents: visible ? "auto" : "none",
-      }}
-    >
-      <div
-        style={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          padding: "1.5rem 1.8rem",
-          // Remove the media query from here
-          background: "rgba(255,255,255,0.75)",
-          border: `1px solid ${fast ? "rgba(201,169,110,0.4)" : "rgba(0,0,0,0.065)"}`,
-          borderRadius: "5px",
-          backdropFilter: "blur(18px)",
-          WebkitBackdropFilter: "blur(18px)",
-          boxShadow: fast
-            ? "0 4px 36px rgba(201,169,110,0.18), 0 1px 0 rgba(255,255,255,0.95) inset"
-            : "0 4px 36px rgba(0,0,0,0.04), 0 1px 0 rgba(255,255,255,0.95) inset",
-          position: "relative",
-          overflow: "hidden",
-          transition: "border-color 0.4s, box-shadow 0.4s",
-        }}
-        // Add a className for media query styling
-        className="stat-card-content"
-      >
-        {/* top accent bar */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: fast ? "100%" : "36px",
-            height: "2px",
-            background: "linear-gradient(90deg, #c9a96e, transparent)",
-            transition: "width 0.6s ease",
-          }}
-        />
-        {/* shimmer sweep in fast mode */}
-        {fast && (
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(105deg, transparent 40%, rgba(201,169,110,0.08) 50%, transparent 60%)",
-              animation: "shimmer 1.4s linear infinite",
-              pointerEvents: "none",
-            }}
-          />
-        )}
-        <div
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(2.5rem, 8vw, 4rem)",
-            fontWeight: 700,
-            color: "#1a1a2e",
-            lineHeight: 1,
-            letterSpacing: "-0.03em",
-            marginBottom: "0.3rem",
-          }}
-        >
-          {count}
-          <span style={{ color: "#c9a96e", fontSize: "0.6em" }}>
-            {item.suffix}
-          </span>
-        </div>
-        <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "clamp(0.9rem, 3vw, 1rem)",
-            fontWeight: 500,
-            color: "#1a1a2e",
-            letterSpacing: "-0.01em",
-            marginBottom: "0.2rem",
-          }}
-        >
-          {item.label}
-        </div>
-        <div
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "clamp(0.7rem, 2.5vw, 0.78rem)",
-            fontWeight: 300,
-            color: "#aaa",
-            letterSpacing: "0.03em",
-          }}
-        >
-          {item.sublabel}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-/* ── Dots ── */
-const Dots: React.FC<{
-  total: number;
-  active: number;
-  onDot: (i: number) => void;
-  fast: boolean;
-}> = ({ total, active, onDot, fast }) => (
-  <div
-    style={{
-      display: "flex",
-      gap: "8px",
-      justifyContent: "center",
-      marginTop: "1rem",
-      flexWrap: "wrap",
-      padding: "0 1rem",
-    }}
-  >
-    {Array.from({ length: total }).map((_, i) => (
-      <button
-        key={i}
-        onClick={() => onDot(i)}
-        style={{
-          width: i === active ? "24px" : "6px",
-          height: "6px",
-          borderRadius: "3px",
-          background: i === active ? "#c9a96e" : "rgba(0,0,0,0.15)",
-          border: "none",
-          padding: 0,
-          cursor: "pointer",
-          minWidth: i === active ? "24px" : "6px",
-          transition: `width ${fast ? "0.15s" : "0.35s"} ease, background 0.35s ease`,
-          boxShadow:
-            i === active && fast ? "0 0 8px rgba(201,169,110,0.7)" : "none",
-        }}
-        aria-label={`Go to slide ${i + 1}`}
-      />
-    ))}
-  </div>
-);
-
-/* ── Power Surge Overlay ── */
-const PowerSurge: React.FC<{ active: boolean }> = ({ active }) => (
-  <>
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 9999,
-        pointerEvents: "none",
-        opacity: active ? 1 : 0,
-        transition: active ? "opacity 0s" : "opacity 0.6s ease 0.3s",
-        background:
-          "radial-gradient(ellipse at center, rgba(201,169,110,0.15) 0%, transparent 70%)",
-      }}
-    />
-    {/* top edge */}
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: "3px",
-        zIndex: 9999,
-        pointerEvents: "none",
-        background:
-          "linear-gradient(90deg, transparent, #c9a96e, #fff8e8, #c9a96e, transparent)",
-        opacity: active ? 1 : 0,
-        transform: active ? "scaleX(1)" : "scaleX(0)",
-        transformOrigin: "left",
-        transition: active
-          ? "opacity 0s, transform 0.35s ease"
-          : "opacity 0.4s ease 0.5s, transform 0s 0.9s",
-        boxShadow: "0 0 18px 4px rgba(201,169,110,0.8)",
-      }}
-    />
-    {/* bottom edge */}
-    <div
-      style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: "3px",
-        zIndex: 9999,
-        pointerEvents: "none",
-        background:
-          "linear-gradient(90deg, transparent, #c9a96e, #fff8e8, #c9a96e, transparent)",
-        opacity: active ? 1 : 0,
-        transform: active ? "scaleX(1)" : "scaleX(0)",
-        transformOrigin: "right",
-        transition: active
-          ? "opacity 0s, transform 0.35s ease 0.05s"
-          : "opacity 0.4s ease 0.5s, transform 0s 0.9s",
-        boxShadow: "0 0 18px 4px rgba(201,169,110,0.8)",
-      }}
-    />
-    {/* left edge */}
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        bottom: 0,
-        left: 0,
-        width: "3px",
-        zIndex: 9999,
-        pointerEvents: "none",
-        background:
-          "linear-gradient(180deg, transparent, #c9a96e, #fff8e8, #c9a96e, transparent)",
-        opacity: active ? 1 : 0,
-        transform: active ? "scaleY(1)" : "scaleY(0)",
-        transformOrigin: "top",
-        transition: active
-          ? "opacity 0s, transform 0.35s ease 0.1s"
-          : "opacity 0.4s ease 0.5s, transform 0s 0.9s",
-        boxShadow: "0 0 18px 4px rgba(201,169,110,0.8)",
-      }}
-    />
-    {/* right edge */}
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        bottom: 0,
-        right: 0,
-        width: "3px",
-        zIndex: 9999,
-        pointerEvents: "none",
-        background:
-          "linear-gradient(180deg, transparent, #c9a96e, #fff8e8, #c9a96e, transparent)",
-        opacity: active ? 1 : 0,
-        transform: active ? "scaleY(1)" : "scaleY(0)",
-        transformOrigin: "bottom",
-        transition: active
-          ? "opacity 0s, transform 0.35s ease 0.15s"
-          : "opacity 0.4s ease 0.5s, transform 0s 0.9s",
-        boxShadow: "0 0 18px 4px rgba(201,169,110,0.8)",
-      }}
-    />
-    {/* burst ring */}
-    <div
-      style={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        width: active ? "200vmax" : "0px",
-        height: active ? "200vmax" : "0px",
-        marginTop: active ? "-100vmax" : "0",
-        marginLeft: active ? "-100vmax" : "0",
-        borderRadius: "50%",
-        zIndex: 9998,
-        pointerEvents: "none",
-        border: "1.5px solid rgba(201,169,110,0.22)",
-        opacity: active ? 1 : 0,
-        transition: active
-          ? "width 0.6s ease, height 0.6s ease, margin 0.6s ease, opacity 0.2s"
-          : "opacity 0.3s ease, width 0s 0.35s, height 0s 0.35s, margin 0s 0.35s",
-      }}
-    />
-  </>
-);
 
 const Home: React.FC = () => {
   const [visible, setVisible] = useState(false);
-  const [statsStarted, setStatsStarted] = useState(false);
-  const [activeCard, setActiveCard] = useState(0);
   const [fast, setFast] = useState(false);
   const [surging, setSurging] = useState(false);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 80);
     return () => clearTimeout(t);
   }, []);
-
-  useEffect(() => {
-    if (!visible) return;
-    const t = setTimeout(() => setStatsStarted(true), 950);
-    return () => clearTimeout(t);
-  }, [visible]);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) setStatsStarted(true);
-      },
-      { threshold: 0.2, rootMargin: "50px" },
-    );
-    if (statsRef.current) obs.observe(statsRef.current);
-    return () => obs.disconnect();
-  }, []);
-
-  const startCarousel = useCallback((isFast: boolean) => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    const delay = isFast ? 900 : 2800;
-    intervalRef.current = setInterval(() => {
-      setActiveCard((prev) => (prev + 1) % stats.length);
-    }, delay);
-  }, []);
-
-  useEffect(() => {
-    if (!statsStarted) return;
-    startCarousel(fast);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [statsStarted, fast, startCarousel]);
 
   const handleBoost = () => {
     if (fast) {
@@ -387,19 +28,11 @@ const Home: React.FC = () => {
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-          @media (min-width: 768px) {
-    .stat-card-content {
-      padding: 2.2rem 2.4rem !important;
-    }
-  }
-
         .home-root {
           font-family: 'DM Sans', sans-serif;
-          min-height: 100vh;
           background: linear-gradient(160deg, #ffffff 0%, #fafafa 52%, #f9f7f4 100%);
           position: relative; 
           overflow-x: hidden;
-          overflow-y: auto;
         }
 
         .reveal { opacity: 0; transform: translateY(18px); }
@@ -510,38 +143,6 @@ const Home: React.FC = () => {
           .btn-secondary:hover { transform: translateY(-2px); border-color: #c9a96e; background: rgba(201,169,110,0.05); }
         }
 
-        .scroll-ind {
-          display: flex; 
-          flex-direction: column; 
-          align-items: center; 
-          gap: 6px;
-          opacity: 0; 
-          animation: fadeIn 0.8s ease 1.2s forwards;
-        }
-        @media (max-width: 1024px) {
-          .scroll-ind {
-            display: none;
-          }
-        }
-        @keyframes fadeIn { to { opacity: 1; } }
-        .scroll-line {
-          width: 1px; 
-          height: 52px;
-          background: linear-gradient(to bottom, #c9a96e, transparent);
-          animation: scrollDrop 2s ease-in-out infinite;
-        }
-        @keyframes scrollDrop {
-          0%   { transform: scaleY(0); transform-origin: top; }
-          50%  { transform: scaleY(1); transform-origin: top; }
-          51%  { transform: scaleY(1); transform-origin: bottom; }
-          100% { transform: scaleY(0); transform-origin: bottom; }
-        }
-
-        @keyframes shimmer {
-          from { transform: translateX(-100%); }
-          to   { transform: translateX(200%); }
-        }
-
         /* boost button */
         .boost-btn {
           font-family: 'DM Sans', sans-serif;
@@ -599,6 +200,11 @@ const Home: React.FC = () => {
           50%       { box-shadow: 0 0 34px rgba(201,169,110,0.6), inset 0 1px 0 rgba(255,255,255,0.1); }
         }
 
+        @keyframes shimmer {
+          from { transform: translateX(-100%); }
+          to   { transform: translateX(200%); }
+        }
+
         /* page surge brightness flash */
         .page-surge {
           animation: surgePulse 0.6s ease forwards;
@@ -611,14 +217,108 @@ const Home: React.FC = () => {
         }
       `}</style>
 
-      <PowerSurge active={surging} />
+      {/* Power Surge Overlay */}
+      {surging && (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 9999,
+              pointerEvents: "none",
+              opacity: 1,
+              background:
+                "radial-gradient(ellipse at center, rgba(201,169,110,0.15) 0%, transparent 70%)",
+            }}
+          />
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "3px",
+              zIndex: 9999,
+              pointerEvents: "none",
+              background:
+                "linear-gradient(90deg, transparent, #c9a96e, #fff8e8, #c9a96e, transparent)",
+              transform: "scaleX(1)",
+              transformOrigin: "left",
+              boxShadow: "0 0 18px 4px rgba(201,169,110,0.8)",
+            }}
+          />
+          <div
+            style={{
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "3px",
+              zIndex: 9999,
+              pointerEvents: "none",
+              background:
+                "linear-gradient(90deg, transparent, #c9a96e, #fff8e8, #c9a96e, transparent)",
+              transform: "scaleX(1)",
+              transformOrigin: "right",
+              boxShadow: "0 0 18px 4px rgba(201,169,110,0.8)",
+            }}
+          />
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              width: "3px",
+              zIndex: 9999,
+              pointerEvents: "none",
+              background:
+                "linear-gradient(180deg, transparent, #c9a96e, #fff8e8, #c9a96e, transparent)",
+              transform: "scaleY(1)",
+              transformOrigin: "top",
+              boxShadow: "0 0 18px 4px rgba(201,169,110,0.8)",
+            }}
+          />
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              bottom: 0,
+              right: 0,
+              width: "3px",
+              zIndex: 9999,
+              pointerEvents: "none",
+              background:
+                "linear-gradient(180deg, transparent, #c9a96e, #fff8e8, #c9a96e, transparent)",
+              transform: "scaleY(1)",
+              transformOrigin: "bottom",
+              boxShadow: "0 0 18px 4px rgba(201,169,110,0.8)",
+            }}
+          />
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              width: "200vmax",
+              height: "200vmax",
+              marginTop: "-100vmax",
+              marginLeft: "-100vmax",
+              borderRadius: "50%",
+              zIndex: 9998,
+              pointerEvents: "none",
+              border: "1.5px solid rgba(201,169,110,0.22)",
+            }}
+          />
+        </>
+      )}
 
       <div className={`home-root${surging ? " page-surge" : ""}`}>
-        {/* Atmosphere blobs - adjusted for mobile */}
+        {/* Atmosphere blobs */}
         <div
           style={{
             position: "absolute",
-            top: "-80px",
+            top: "-90px",
             right: "5%",
             width: "clamp(300px, 70vw, 500px)",
             height: "clamp(300px, 70vw, 500px)",
@@ -656,7 +356,8 @@ const Home: React.FC = () => {
             zIndex: 0,
           }}
         />
-        {/* Top gold accent line — glows when fast */}
+
+        {/* Top gold accent line */}
         <div
           style={{
             position: "absolute",
@@ -675,10 +376,7 @@ const Home: React.FC = () => {
         />
 
         {/* Ticker */}
-        <div
-          className="ticker-wrap"
-          style={{ position: "relative", zIndex: 1 }}
-        >
+        <div className="ticker-wrap" style={{ position: "relative", zIndex: 1 }}>
           <div
             className="ticker-track"
             style={
@@ -704,37 +402,28 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* Hero grid - mobile optimized */}
+        {/* Hero section */}
         <div
           style={{
             maxWidth: "1200px",
             margin: "0 auto",
             padding: "1.5rem 1.5rem 2.5rem",
-            minHeight: "calc(100vh - 42px)",
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "2.5rem",
+            minHeight: "auto",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             position: "relative",
             zIndex: 1,
           }}
         >
-          <style>{`
-            @media (min-width: 1024px) {
-              .hero-grid {
-                grid-template-columns: 1fr 420px !important;
-                padding: 0 2.5rem !important;
-                gap: 5rem !important;
-              }
-            }
-          `}</style>
-
-          {/* LEFT */}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               textAlign: "center",
+              width: "100%",
             }}
           >
             <div
@@ -859,93 +548,37 @@ const Home: React.FC = () => {
                 Contact Me
               </Link>
             </div>
-          </div>
 
-          {/* RIGHT — Carousel */}
-          <div ref={statsRef} style={{ marginTop: "1rem" }}>
-            <div
-              style={{
-                position: "relative",
-                height: "auto",
-                minHeight: "240px",
-                opacity: statsStarted ? 1 : 0,
-                transition: "opacity 0.6s ease 0.1s",
-              }}
-            >
-              {stats.map((item, i) => (
-                <StatCard
-                  key={i}
-                  item={item}
-                  visible={statsStarted && activeCard === i}
-                  started={statsStarted}
-                  fast={fast}
-                />
-              ))}
-            </div>
-
-            <div
-              style={{
-                opacity: statsStarted ? 1 : 0,
-                transition: "opacity 0.6s ease 0.3s",
-                marginTop: "1rem",
-              }}
-            >
-              <Dots
-                total={stats.length}
-                active={activeCard}
-                fast={fast}
-                onDot={(i) => {
-                  setActiveCard(i);
-                  startCarousel(fast);
-                }}
-              />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "0.9rem",
-                  marginBottom: "1rem",
-                }}
+            {/* Boost Button moved below the buttons */}
+            <div className="reveal t4" style={{ marginTop: "1rem" }}>
+              <button
+                className={`boost-btn ${fast ? "fast-mode" : "normal"}`}
+                onClick={handleBoost}
               >
-                <button
-                  className={`boost-btn ${fast ? "fast-mode" : "normal"}`}
-                  onClick={handleBoost}
-                >
-                  {fast ? (
-                    <>
-                      <svg
-                        width="11"
-                        height="11"
-                        viewBox="0 0 11 11"
-                        fill="none"
-                      >
-                        <path
-                          d="M5.5 1v2M5.5 8v2M1 5.5h2M8 5.5h2M2.64 2.64l1.42 1.42M6.94 6.94l1.42 1.42M2.64 8.36l1.42-1.42M6.94 4.06l1.42-1.42"
-                          stroke="#c9a96e"
-                          strokeWidth="1.4"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                      Normal Pace
-                    </>
-                  ) : (
-                    <>
-                      <svg
-                        width="10"
-                        height="12"
-                        viewBox="0 0 10 12"
-                        fill="none"
-                      >
-                        <path
-                          d="M6 1L1 7h4l-1 4 5-6H5.5L6 1z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                      Fast
-                    </>
-                  )}
-                </button>
-              </div>
+                {fast ? (
+                  <>
+                    <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                      <path
+                        d="M5.5 1v2M5.5 8v2M1 5.5h2M8 5.5h2M2.64 2.64l1.42 1.42M6.94 6.94l1.42 1.42M2.64 8.36l1.42-1.42M6.94 4.06l1.42-1.42"
+                        stroke="#c9a96e"
+                        strokeWidth="1.4"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    Normal Pace
+                  </>
+                ) : (
+                  <>
+                    <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+                      <path
+                        d="M6 1L1 7h4l-1 4 5-6H5.5L6 1z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Fast
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
